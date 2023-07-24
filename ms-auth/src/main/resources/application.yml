@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: ms-auth
+  datasource:
+    url: jdbc:postgresql://localhost:5432/desafio
+    username: postgres
+    password: root
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true # logging
+    hibernate:
+#     TODO - Remover após criar as tables no banco
+      ddl-auto: create-drop
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
+
+app:
+  jwt:
+    ExpirationMs: 3600000
+    Secret: 2bb80d537b1da3e38bd30361aa855686bde0eacd7162fef6a25fe97bf527a25b
+
+server:
+  port: 9000

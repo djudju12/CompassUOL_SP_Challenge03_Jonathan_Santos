@@ -9,9 +9,9 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true # logging
-  rabbitmq:
-    addresses: ${QUEUE_ADDR}
-    queue: ms-email
+#  rabbitmq:
+#    addresses: ${QUEUE_ADDR}
+#    queue: ms-email
 
 server:
   port: 8000
