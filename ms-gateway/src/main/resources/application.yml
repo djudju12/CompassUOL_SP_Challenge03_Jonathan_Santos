@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: ms-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: ms-products
+          uri: http://localhost:8000
+          predicates:
+            - Path=/products/**
+            - Method=GET, POST, PUT, DELETE
+        - id: ms-orders
+          uri: http://localhost:8100
+          predicates:
+            - Path=/orders/**
+            - Method=GET, POST, PUT, DELETE
+server:
+  port: 8765
