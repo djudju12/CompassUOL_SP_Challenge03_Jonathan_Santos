@@ -1,6 +1,7 @@
 package com.br.compassuol.gateway.utils;
 
 import com.br.compassuol.gateway.exceptions.types.InvalidJwtTokenException;
+import com.br.compassuol.gateway.exceptions.types.UnathorizedJwtTokenException;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.mock.http.server.reactive.MockServerHttpRequest;
@@ -14,14 +15,16 @@ class JwtUtilsTest {
 
     private final JwtUtils jwtUtils = new JwtUtils();
 
+    private final String TOKEN = "Bearer foo";
+
+
     @Test
     void getTokenFromServerWebExchange_ReceivesValidToken_ReturnsToken() {
         // given
-        final String token = "foo";
 
         MockServerHttpRequest request = MockServerHttpRequest
                 .post("/")
-                .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                .header(HttpHeaders.AUTHORIZATION, TOKEN)
                 .build();
 
         MockServerWebExchange servletRequest = MockServerWebExchange.from(request);
@@ -30,7 +33,7 @@ class JwtUtilsTest {
         String returnedToken = jwtUtils.getTokenFromServerWebExchange(servletRequest);
 
         //then
-        assertThat(returnedToken).isEqualTo(token);
+        assertThat(returnedToken).isEqualTo(TOKEN.substring("Bearer ".length()));
 
     }
 
@@ -52,12 +55,10 @@ class JwtUtilsTest {
     }
 
     @Test
-    void tokenIsValid_ReceivesValidToken_ReturnTrue() {
-        // given
-
-
-        // when
-
-        // then
+    void tokenIsValid_ReceivesInvalidToken_ThrowsException() {
+        // when then
+        assertThatExceptionOfType(UnathorizedJwtTokenException.class).isThrownBy(
+                () -> jwtUtils.tokenIsValid(TOKEN)
+        );
     }
 }

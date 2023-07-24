@@ -1,6 +1,7 @@
 package com.br.compassuol.gateway.utils;
 
 import com.br.compassuol.gateway.exceptions.types.InvalidJwtTokenException;
+import com.br.compassuol.gateway.exceptions.types.UnathorizedJwtTokenException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -49,8 +50,7 @@ public class JwtUtils {
                     .parse(token);
             return true;
         } catch (Exception e) {
-            // TODO - Criar uma exception customizada
-            throw new RuntimeException(e.getMessage());
+            throw new UnathorizedJwtTokenException(e);
         }
     }
 
