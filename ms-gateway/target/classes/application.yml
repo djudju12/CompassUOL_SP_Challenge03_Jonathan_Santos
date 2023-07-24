@@ -26,8 +26,9 @@ spring:
 
 app:
   jwt:
-    ExpirationMs: 3
     Secret: 2bb80d537b1da3e38bd30361aa855686bde0eacd7162fef6a25fe97bf527a25b
 
 server:
   port: 8765
+  error:
+    include-message: always # Necessário para mostrar a mensagem no json quando um erro é retornado

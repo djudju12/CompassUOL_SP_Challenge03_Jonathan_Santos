@@ -1,18 +1,16 @@
 package com.br.compassuol.gateway.utils;
 
+import com.br.compassuol.gateway.exceptions.types.InvalidJwtTokenException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
-import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.ServerWebExchange;
 
 import java.security.Key;
-import java.util.Objects;
+import java.util.List;
 
 @Component
 public class JwtUtils {
@@ -26,25 +24,21 @@ public class JwtUtils {
      * @return apenas o JWT do request
      */
     public String getTokenFromServerWebExchange(ServerWebExchange serverWebExchange) {
-//        List<String> authHeader = serverWebExchange.getRequest()
-//                        .getHeaders()
-//                        .get(HttpHeaders.AUTHORIZATION);
-//
-//        if (authHeader == null || authHeader.isEmpty()) {
-//            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Token not found");
-//        }
+        List<String> authHeader = serverWebExchange.getRequest()
+                        .getHeaders()
+                        .get(HttpHeaders.AUTHORIZATION);
 
         // TODO - checar essa excessao
-        String token = Objects.requireNonNull(serverWebExchange.getRequest()
-                        .getHeaders()
-                        .get(HttpHeaders.AUTHORIZATION))
-                        .get(0);
-
-        if (StringUtils.hasText(token) && token.startsWith("Bearer ")) {
-            return token.substring("Bearer ".length());
+        if (authHeader == null || authHeader.isEmpty()) {
+            throw new InvalidJwtTokenException();
         }
 
-        throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Invalid Token");
+        String token = authHeader.get(0);
+        if (!token.startsWith("Bearer ")) {
+            throw new InvalidJwtTokenException();
+        }
+
+        return token.substring("Bearer ".length());
     }
 
     public boolean tokenIsValid(String token) {

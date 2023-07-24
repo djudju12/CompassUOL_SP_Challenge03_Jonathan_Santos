@@ -30,3 +30,5 @@ app:
 
 server:
   port: 8765
+  error:
+    include-message: always # Necessário para mostrar a mensagem no json quando um erro é retornado
