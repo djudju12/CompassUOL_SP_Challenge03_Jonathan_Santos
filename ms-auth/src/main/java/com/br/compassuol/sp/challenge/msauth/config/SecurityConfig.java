@@ -7,7 +7,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -15,11 +14,9 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
-    private final UserDetailsService userDetailsService;
     private final JwtAuthEntryPoint jwtAuthEntryPoint;
-    public SecurityConfig(UserDetailsService userDetailsService,
-                          JwtAuthEntryPoint jwtAuthEntryPoint) {
-        this.userDetailsService = userDetailsService;
+
+    public SecurityConfig(JwtAuthEntryPoint jwtAuthEntryPoint) {
         this.jwtAuthEntryPoint = jwtAuthEntryPoint;
     }
 
@@ -43,7 +40,7 @@ public class SecurityConfig {
 
             .authorizeHttpRequests((authorize) -> authorize
                     .anyRequest().permitAll())
-
+//
             .exceptionHandling(exception -> exception
                 .authenticationEntryPoint(jwtAuthEntryPoint))
 

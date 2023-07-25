@@ -4,6 +4,7 @@ import com.br.compassuol.sp.challenge.msauth.jwt.JwtTokenProvider;
 import com.br.compassuol.sp.challenge.msauth.model.dto.LoginDto;
 import com.br.compassuol.sp.challenge.msauth.service.AuthService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -13,9 +14,15 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 public class AuthServiceImpl implements AuthService {
-
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
+
+    @Value("${app.jwt.Secret}")
+    private String jwtSecret;
+
+    @Value("${app.jwt.ExpirationMs}")
+    private long jwtExpirationMs;
+
 
     public AuthServiceImpl(AuthenticationManager authenticationManager,
                            JwtTokenProvider jwtTokenProvider) {
@@ -35,7 +42,7 @@ public class AuthServiceImpl implements AuthService {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        return jwtTokenProvider.generateJwtToken(authentication);
+        return jwtTokenProvider.generateJwtToken(authentication, jwtSecret, jwtExpirationMs);
     }
 
 }

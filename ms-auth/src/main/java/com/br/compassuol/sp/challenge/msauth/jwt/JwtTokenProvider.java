@@ -4,7 +4,6 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
@@ -15,28 +14,20 @@ import java.util.Date;
 @Slf4j
 public class JwtTokenProvider {
 
-    @Value("${app.jwt.Secret}")
-    private String jwtSecret;
-
-    @Value("${app.jwt.ExpirationMs}")
-    private long jwtExpirationMs;
-
-    public String generateJwtToken(Authentication authentication) {
+    public String generateJwtToken(Authentication authentication, String secret, long expirationMs) {
         String username = authentication.getName();
-
         Date currentDate = new Date();
-        Date expiredDate = new Date(currentDate.getTime() + jwtExpirationMs);
+        Date expiredDate = new Date(currentDate.getTime() + expirationMs);
 
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(currentDate)
                 .setExpiration(expiredDate)
-                .signWith(key())
+                .signWith(key(secret))
                 .compact();
     }
 
-    private Key key() {
-        log.info("jwtSecret: {}", jwtSecret);
+    private Key key(String jwtSecret) {
         return Keys.hmacShaKeyFor(
                 Decoders.BASE64.decode(jwtSecret)
         );

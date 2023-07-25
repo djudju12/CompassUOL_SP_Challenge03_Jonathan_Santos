@@ -4,6 +4,7 @@ import com.br.compassuol.sp.challenge.msauth.utils.JwtUtils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -24,20 +25,26 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class JwtTokenProviderTest {
 
-    @Autowired
     private JwtTokenProvider jwtTokenProvider;
+    private JwtUtils jwtUtils = new JwtUtils();
 
-    private final JwtUtils jwtUtils = new JwtUtils();
+    private final String TEST_SECRET = jwtUtils.getTestSecret();
+
+    private final long TEST_EXP = jwtUtils.getTestExpiration();
+
+    @BeforeEach
+    void setUp() {
+        jwtTokenProvider = new JwtTokenProvider();
+    }
 
     @Test
     void generateJwtToken_ReceivesAuthentication_ReturnsToken() {
         // given
         Authentication mockedAuth = Mockito.mock(Authentication.class);
         when(mockedAuth.getName()).thenReturn("username");
-        final String testKey = jwtUtils.getTestSecret();
 
         // when
-        String token = jwtTokenProvider.generateJwtToken(mockedAuth);
+        String token = jwtTokenProvider.generateJwtToken(mockedAuth, TEST_SECRET, TEST_EXP);
 
         // then
         assertThat(token).isNotNull();
@@ -46,7 +53,8 @@ class JwtTokenProviderTest {
         assertAll(
                 () -> assertEquals("username", claims.getSubject()),
                 () -> assertNotNull(claims.getIssuedAt()),
-                () -> assertNotNull(claims.getExpiration()));
+                () -> assertNotNull(claims.getExpiration())
+        );
 
     }
 }

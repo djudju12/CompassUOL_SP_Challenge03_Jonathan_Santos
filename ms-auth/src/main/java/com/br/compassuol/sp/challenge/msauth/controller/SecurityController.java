@@ -4,6 +4,7 @@ import com.br.compassuol.sp.challenge.msauth.model.dto.JwtDto;
 import com.br.compassuol.sp.challenge.msauth.model.dto.LoginDto;
 import com.br.compassuol.sp.challenge.msauth.service.AuthService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,7 +28,7 @@ public class SecurityController {
         JwtDto jwtAuthResponse = new JwtDto();
         jwtAuthResponse.setAccessToken(token);
 
-        return ResponseEntity.ok(jwtAuthResponse);
+        return new ResponseEntity<>(jwtAuthResponse, HttpStatus.CREATED);
     }
 
 }
