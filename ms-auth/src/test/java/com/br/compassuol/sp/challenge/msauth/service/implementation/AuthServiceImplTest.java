@@ -2,7 +2,6 @@ package com.br.compassuol.sp.challenge.msauth.service.implementation;
 
 import com.br.compassuol.sp.challenge.msauth.jwt.JwtTokenProvider;
 import com.br.compassuol.sp.challenge.msauth.model.dto.LoginDto;
-import com.br.compassuol.sp.challenge.msauth.utils.JwtUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -14,10 +13,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
-import static org.mockito.Mockito.mock;
 
 @ExtendWith(MockitoExtension.class)
 class AuthServiceImplTest {

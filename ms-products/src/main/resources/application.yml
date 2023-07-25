@@ -9,6 +9,12 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true # logging
+    hibernate:
+      ddl-auto: update
+  # TODO - remover ao criar as tables
+  sql:
+    init:
+      mode: always
 #  rabbitmq:
 #    addresses: ${QUEUE_ADDR}
 #    queue: ms-email
