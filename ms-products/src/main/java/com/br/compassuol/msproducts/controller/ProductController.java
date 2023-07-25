@@ -22,8 +22,12 @@ public class ProductController {
 
 
     @GetMapping("/")
-    public ResponseEntity<List<ProductDto>> getProducts() {
-        List<ProductDto> productList = productService.findAllProducts();
+    public ResponseEntity<List<ProductDto>> getProducts(@RequestParam(defaultValue = "0") int page,
+                                                        @RequestParam(defaultValue = "10") int linesPerPage,
+                                                        @RequestParam(defaultValue = "asc") String direction,
+                                                        @RequestParam(defaultValue = "name") String orderBy) {
+
+        List<ProductDto> productList = productService.findAllProducts(page, linesPerPage, direction, orderBy);
         return new ResponseEntity<>(productList, HttpStatus.OK);
     }
 

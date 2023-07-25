@@ -13,6 +13,9 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 import java.util.Optional;
@@ -48,13 +51,19 @@ class ProductServiceImplTest {
     void findAllProducts() {
         // given
         List<Product> productList = Lists.newArrayList(mock(Product.class));
-        given(productRepository.findAll()).willReturn(productList);
+        Page<Product> productPage = new PageImpl<>(productList);
+        given(productRepository.findAll(any(PageRequest.class))).willReturn(productPage);
 
         // when
-        List<ProductDto> returnedProductsDto = productService.findAllProducts();
+        List<ProductDto> returnedProductsDto = productService.findAllProducts(
+                0,
+                10,
+                "ASC",
+                "name"
+        );
 
         // then
-        then(productRepository).should().findAll();
+        then(productRepository).should().findAll(any(PageRequest.class));
         then(productMapper).should(times(productList.size())).toDto(any(Product.class));
         assertThat(returnedProductsDto.size()).isEqualTo(productList.size());
     }
