@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoginDto {
+    // TODO - adicionar validacao
     private String username;
     private String password;
 }

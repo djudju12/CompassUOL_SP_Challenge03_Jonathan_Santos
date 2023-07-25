@@ -3,6 +3,7 @@ package com.br.compassuol.sp.challenge.msauth.controller;
 import com.br.compassuol.sp.challenge.msauth.model.dto.JwtDto;
 import com.br.compassuol.sp.challenge.msauth.model.dto.LoginDto;
 import com.br.compassuol.sp.challenge.msauth.service.AuthService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +21,7 @@ public class SecurityController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<JwtDto> login(@RequestBody LoginDto loginDto){
+    public ResponseEntity<JwtDto> login(@Valid @RequestBody LoginDto loginDto){
         String token = authService.login(loginDto);
 
         JwtDto jwtAuthResponse = new JwtDto();

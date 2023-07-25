@@ -29,7 +29,6 @@ public class JwtUtils {
                         .getHeaders()
                         .get(HttpHeaders.AUTHORIZATION);
 
-        // TODO - checar essa excessao
         if (authHeader == null || authHeader.isEmpty()) {
             throw new InvalidJwtTokenException();
         }
