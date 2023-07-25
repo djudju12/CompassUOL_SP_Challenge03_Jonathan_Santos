@@ -9,6 +9,11 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true # logging
+  kafka:
+    bootstrap-servers: localhost:29092
+    topic1: products
+    topic2: orders
+
 #  rabbitmq:
 #    addresses: ${QUEUE_ADDR}
 #    queue: ms-email
