@@ -1,13 +1,11 @@
 package com.br.compassuol.sp.challenge.msorders.controller;
 
-import com.br.compassuol.sp.challenge.msorders.feign.AddressProxy;
-import com.br.compassuol.sp.challenge.msorders.model.dto.address.AddressResponse;
 import com.br.compassuol.sp.challenge.msorders.model.dto.orders.DetailedOrderDto;
 import com.br.compassuol.sp.challenge.msorders.model.dto.orders.OrderDto;
+import com.br.compassuol.sp.challenge.msorders.model.dto.orders.UpdateOrderDto;
 import com.br.compassuol.sp.challenge.msorders.service.OrderService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,12 +19,9 @@ import java.util.List;
 public class OrdersController {
 
     private final OrderService orderService;
-    private final AddressProxy addressProxy;
 
-    public OrdersController(OrderService orderService,
-                            AddressProxy addressProxy) {
+    public OrdersController(OrderService orderService) {
         this.orderService = orderService;
-        this.addressProxy = addressProxy;
     }
 
     // TODO - validar os parametros
@@ -43,8 +38,8 @@ public class OrdersController {
 
     @PostMapping(value = {"/", ""})
     public ResponseEntity<OrderDto> createOrder(@Valid @RequestBody OrderDto orderDto) {
-        OrderDto order = orderService.createOrder(orderDto);
-        return new ResponseEntity<>(order, HttpStatus.CREATED);
+        OrderDto newOrder = orderService.createOrder(orderDto);
+        return new ResponseEntity<>(newOrder, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
@@ -53,11 +48,11 @@ public class OrdersController {
         orderService.cancelOrder(id);
     }
 
-    @GetMapping("/teste/{cep}")
-    public ResponseEntity<AddressResponse> teste(@PathVariable String cep) {
-        log.info("cep: {}", cep);
-        AddressResponse response = addressProxy.getAddressByCep(cep);
-        log.info("response: {}", response);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    @PutMapping("/{id}")
+    public ResponseEntity<OrderDto> updateOrder(@PathVariable long id,
+                            @Valid @RequestBody UpdateOrderDto orderDto) {
+
+        OrderDto updatedOrder = orderService.updateOrder(id, orderDto);
+        return new ResponseEntity<>(updatedOrder, HttpStatus.OK);
     }
 }

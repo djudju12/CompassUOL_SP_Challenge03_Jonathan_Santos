@@ -1,5 +1,6 @@
 package com.br.compassuol.sp.challenge.msorders.exception;
 
+import com.br.compassuol.sp.challenge.msorders.exception.types.CancelOrderMisuseException;
 import com.br.compassuol.sp.challenge.msorders.exception.types.OrderIdNotFoundException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
@@ -19,6 +20,12 @@ public class ExceptionHandlers extends ResponseEntityExceptionHandler {
     protected ResponseEntity<ErrorResponse> handleNotFoundException(Exception exc){
         ErrorResponse error = new ErrorResponse(HttpStatus.NOT_FOUND.value(), exc.getMessage());
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(CancelOrderMisuseException.class)
+    protected ResponseEntity<ErrorResponse> handleMisuseOfCancel(Exception exc){
+        ErrorResponse error = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), exc.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
     @Override

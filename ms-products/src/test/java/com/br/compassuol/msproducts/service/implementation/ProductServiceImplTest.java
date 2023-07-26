@@ -50,25 +50,19 @@ class ProductServiceImplTest {
 
     @Test
     @Disabled
-    // TODO - adicionar um pageable
     void findAllProducts() {
         // given
         List<Product> productList = Lists.newArrayList(mock(Product.class));
         Page<Product> productPage = new PageImpl<>(productList);
         given(productRepository.findAll(any(PageRequest.class))).willReturn(productPage);
 
-//        // when
-//        List<ProductDto> returnedProductsDto = productService.findAllProducts(
-//                0,
-//                10,
-//                "ASC",
-//                "name"
-//        );
+        // when
+        List<ProductDto> returnedProductsDto = productService.findAllProducts(mock(PageRequest.class));
 
         // then
-//        then(productRepository).should().findAll(any(PageRequest.class));
-//        then(productMapper).should(times(productList.size())).toDto(any(Product.class));
-//        assertThat(returnedProductsDto.size()).isEqualTo(productList.size());
+        then(productRepository).should().findAll(any(PageRequest.class));
+        then(productMapper).should(times(productList.size())).toDto(any(Product.class));
+        assertThat(returnedProductsDto.size()).isEqualTo(productList.size());
     }
 
     @Test

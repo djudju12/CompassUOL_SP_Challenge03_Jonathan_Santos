@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -16,8 +17,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.reset;
@@ -55,30 +55,23 @@ class ProductControllerTest {
     }
 
     // TODO - testar validação do DTO, Excessões personalizadas
-    // TODO - adicionar um pageable oa inves dos parametros
-//    @Test
-//    void getProducts__ReturnsDtoList() throws Exception {
-        // given
-//
-//        List<ProductDto> productList = new ArrayList<>();
-//        given(productService.findAllProducts(
-//                anyInt(),
-//                anyInt(),
-//                anyString(),
-//                anyString()
-//        )).willReturn(productList);
-//
-//        //when then
-//        mockMvc.perform(get(PRODUCTS_URL)
-//                    .param("page", "0")
-//                    .param("linesPerPage", "10")
-//                    .param("direction", "asc")
-//                    .param("orderBy", "name")
-//                    .accept(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk());
-//
-//        then(productService).should().findAllProducts(0, 10, "asc", "name");
-//    }
+    @Test
+    void getProducts__ReturnsDtoList() throws Exception {
+         // given
+
+        List<ProductDto> productList = new ArrayList<>();
+        given(productService.findAllProducts(any(Pageable.class))).willReturn(productList);
+
+        //when then
+        mockMvc.perform(get(PRODUCTS_URL)
+                    .param("page", "0")
+                    .param("size", "10")
+                    .param("sort", "name")
+                    .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        then(productService).should().findAllProducts(any(Pageable.class));
+    }
 
     @Test
     void deleteProduct_ReceivesValidId_ReturnsNoContent() throws Exception {

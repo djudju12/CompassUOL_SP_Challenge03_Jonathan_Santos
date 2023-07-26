@@ -1,9 +1,11 @@
 package com.br.compassuol.sp.challenge.msorders.service.implementation;
 
+import com.br.compassuol.sp.challenge.msorders.exception.types.CancelOrderMisuseException;
 import com.br.compassuol.sp.challenge.msorders.exception.types.OrderIdNotFoundException;
 import com.br.compassuol.sp.challenge.msorders.model.dto.address.DeliveryAddressDto;
 import com.br.compassuol.sp.challenge.msorders.model.dto.orders.DetailedOrderDto;
 import com.br.compassuol.sp.challenge.msorders.model.dto.orders.OrderDto;
+import com.br.compassuol.sp.challenge.msorders.model.dto.orders.UpdateOrderDto;
 import com.br.compassuol.sp.challenge.msorders.model.dto.products.PayloadProductsRequest;
 import com.br.compassuol.sp.challenge.msorders.model.dto.products.ProductDto;
 import com.br.compassuol.sp.challenge.msorders.model.entity.Order;
@@ -85,6 +87,20 @@ public class OrderServiceImpl implements OrderService {
         List<ProductDto> details = senderMessageService.getProductsDescription(items);
 
         return orderMapper.toDto(findOrder, details);
+    }
+
+    @Override
+    public OrderDto updateOrder(long id, UpdateOrderDto orderDto) {
+        Order order = orderRepository.findByIdActive(id).orElseThrow(
+                () -> new OrderIdNotFoundException(id));
+
+        OrderStatus status = OrderStatus.valueOf(orderDto.getStatus());
+        if (status == OrderStatus.CANCELED)
+            throw new CancelOrderMisuseException();
+
+        order.setStatus(status);
+        Order updatedOrder = orderRepository.save(order);
+        return orderMapper.toDto(updatedOrder);
     }
 
 }
