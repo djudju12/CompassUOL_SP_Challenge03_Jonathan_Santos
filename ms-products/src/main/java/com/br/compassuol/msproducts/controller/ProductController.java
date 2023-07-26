@@ -20,8 +20,9 @@ public class ProductController {
         this.productService = productService;
     }
 
-
-    @GetMapping("/")
+    // TODO - default na properties
+    // TODO - validar os parametros
+    @GetMapping(value = {"/", ""})
     public ResponseEntity<List<ProductDto>> getProducts(@RequestParam(defaultValue = "0") int page,
                                                         @RequestParam(defaultValue = "10") int linesPerPage,
                                                         @RequestParam(defaultValue = "asc") String direction,
@@ -44,7 +45,7 @@ public class ProductController {
         productService.deleteProduct(id);
     }
 
-    @PostMapping("/")
+    @PostMapping(value = {"/", ""})
     public ResponseEntity<ProductDto> createProduct(@Valid @RequestBody ProductDto product) {
         ProductDto updatedProduct = productService.createProduct(product);
         return new ResponseEntity<>(updatedProduct, HttpStatus.CREATED);

@@ -1,15 +1,46 @@
 package com.br.compassuol.sp.challenge.msorders.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.br.compassuol.sp.challenge.msorders.model.dto.OrderDto;
+import com.br.compassuol.sp.challenge.msorders.service.OrderService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/orders")
 public class OrdersController {
 
-    @GetMapping("/")
-    public String getOrders() {
-        return "Orders";
+    private final OrderService orderService;
+
+    public OrdersController(OrderService orderService) {
+        this.orderService = orderService;
     }
+
+    // TODO - default na properties
+    // TODO - validar os parametros
+    @GetMapping(value = {"/", ""})
+    public ResponseEntity<List<OrderDto>> getProducts(  @RequestParam(defaultValue = "0") int page,
+                                                        @RequestParam(defaultValue = "10") int linesPerPage,
+                                                        @RequestParam(defaultValue = "asc") String direction,
+                                                        @RequestParam(defaultValue = "name") String orderBy) {
+
+        List<OrderDto> orderList = orderService.findAllOrders(page, linesPerPage, direction, orderBy);
+        return new ResponseEntity<>(orderList, HttpStatus.OK);
+    }
+
+    @PostMapping(value = {"/", ""})
+    public ResponseEntity<OrderDto> createOrder(@Valid @RequestBody OrderDto orderDto) {
+        OrderDto order = orderService.createOrder(orderDto);
+        return new ResponseEntity<>(order, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void cancelOrder(@PathVariable long id) {
+        orderService.cancelOrder(id);
+    }
+
 }

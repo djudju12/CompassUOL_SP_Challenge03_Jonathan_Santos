@@ -11,13 +11,11 @@ spring:
     show-sql: true # logging
     hibernate:
       ddl-auto: update
-  # TODO - remover ao criar as tables
-  sql:
-    init:
-      mode: always
-#  rabbitmq:
-#    addresses: ${QUEUE_ADDR}
-#    queue: ms-email
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
 
 server:
   port: 8000
