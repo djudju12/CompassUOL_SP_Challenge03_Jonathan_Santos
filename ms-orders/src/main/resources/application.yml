@@ -11,8 +11,13 @@ spring:
     show-sql: true # logging
   kafka:
     bootstrap-servers: localhost:29092
-    topic1: products
-    topic2: orders
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.LongSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+  my-topics:
+    send-topic: products-send
+    reply-topic: products-reply
+    consumer-group: products-group
 
 #  rabbitmq:
 #    addresses: ${QUEUE_ADDR}
