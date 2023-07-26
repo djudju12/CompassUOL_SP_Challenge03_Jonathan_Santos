@@ -1,5 +1,6 @@
 package com.br.compassuol.sp.challenge.msorders.controller;
 
+import com.br.compassuol.sp.challenge.msorders.model.dto.DetailedOrderDto;
 import com.br.compassuol.sp.challenge.msorders.model.dto.OrderDto;
 import com.br.compassuol.sp.challenge.msorders.service.OrderService;
 import jakarta.validation.Valid;
@@ -31,9 +32,9 @@ public class OrdersController {
         return new ResponseEntity<>(orderList, HttpStatus.OK);
     }
     @GetMapping("/{orderId}")
-    public ResponseEntity<?> getProducts(@PathVariable long orderId) {
-        orderService.findWithDetails(orderId);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<DetailedOrderDto> getProducts(@PathVariable long orderId) {
+        DetailedOrderDto orderDto = orderService.findWithDetails(orderId);
+        return new ResponseEntity<>(orderDto, HttpStatus.OK);
     }
 
     @PostMapping(value = {"/", ""})

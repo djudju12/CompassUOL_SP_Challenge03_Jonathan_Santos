@@ -4,14 +4,13 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Component;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "cart")
-public class Cart {
+@Table(name = "ordered_product")
+public class OrderedProduct {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +23,7 @@ public class Cart {
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
-    public Cart(Long productId) {
+    public OrderedProduct(Long productId) {
         this.productId = productId;
     }
 }

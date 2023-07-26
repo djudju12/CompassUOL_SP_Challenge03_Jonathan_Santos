@@ -33,6 +33,8 @@ public class SenderMessageServiceImpl implements SenderMessageService {
         this.kafkaTemplate = kafkaTemplate;
         this.objectMapper = objectMapper;
     }
+
+    // TODO - Melhorar isso
     @Override
     @SneakyThrows
     public List<ProductDto> getProductsDescription(ProductListDto productListDto) {

@@ -1,5 +1,6 @@
 package com.br.compassuol.sp.challenge.msorders.service;
 
+import com.br.compassuol.sp.challenge.msorders.model.dto.DetailedOrderDto;
 import com.br.compassuol.sp.challenge.msorders.model.dto.OrderDto;
 import com.br.compassuol.sp.challenge.msorders.model.entity.Order;
 
@@ -9,5 +10,5 @@ public interface OrderService {
     OrderDto createOrder(OrderDto orderDto);
     List<OrderDto> findAllOrders(int page, int linesPerPage, String direction, String orderBy);
     void cancelOrder(long id);
-    void findWithDetails(long orderId);
+    DetailedOrderDto findWithDetails(long orderId);
 }

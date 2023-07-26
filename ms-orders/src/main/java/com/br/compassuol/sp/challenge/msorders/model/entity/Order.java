@@ -22,13 +22,13 @@ public class Order {
     private Long userId;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<Cart> products;
+    private List<OrderedProduct> products;
 
     @Enumerated(EnumType.STRING)
     // TODO - default value no sql
     private OrderStatus status;
 
-    public Order setProducts(List<Cart> items) {
+    public Order setProducts(List<OrderedProduct> items) {
         this.products = items;
         this.products.forEach(item -> item.setOrder(this));
         return this;
