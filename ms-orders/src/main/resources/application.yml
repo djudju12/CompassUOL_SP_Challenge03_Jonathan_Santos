@@ -11,6 +11,15 @@ spring:
     show-sql: true # logging
     hibernate:
       ddl-auto: create-drop # create-drop
+  kafka:
+    bootstrap-servers: localhost:29092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.LongSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+  my-topics:
+    send-topic: products-send
+    reply-topic: products-reply
+    consumer-group: products-group
 
 server:
   port: 8100

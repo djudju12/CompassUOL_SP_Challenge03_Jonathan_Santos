@@ -30,6 +30,11 @@ public class OrdersController {
         List<OrderDto> orderList = orderService.findAllOrders(page, linesPerPage, direction, orderBy);
         return new ResponseEntity<>(orderList, HttpStatus.OK);
     }
+    @GetMapping("/{orderId}")
+    public ResponseEntity<?> getProducts(@PathVariable long orderId) {
+        orderService.findWithDetails(orderId);
+        return ResponseEntity.ok().build();
+    }
 
     @PostMapping(value = {"/", ""})
     public ResponseEntity<OrderDto> createOrder(@Valid @RequestBody OrderDto orderDto) {

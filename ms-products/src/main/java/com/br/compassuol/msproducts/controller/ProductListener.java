@@ -1,12 +1,17 @@
 package com.br.compassuol.msproducts.controller;
 
-import com.br.compassuol.msproducts.model.dto.CartDto;
+import com.br.compassuol.msproducts.model.dto.PayloadProducts;
 import com.br.compassuol.msproducts.model.dto.ProductDto;
-import com.br.compassuol.msproducts.rabbitmq.RabbitConfig;
+import com.br.compassuol.msproducts.model.dto.ProductListDto;
 import com.br.compassuol.msproducts.service.ProductService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -15,25 +20,33 @@ import java.util.List;
 @Slf4j
 public class ProductListener {
 
+    private final ObjectMapper objectMapper;
+
     private final ProductService productService;
 
-    final
-    RabbitTemplate rabbitTemplate;
-
-    public ProductListener(ProductService productService,
-                           RabbitTemplate rabbitTemplate) {
+    public ProductListener(ObjectMapper objectMapper,
+                           ProductService productService) {
+        this.objectMapper = objectMapper;
         this.productService = productService;
-        this.rabbitTemplate = rabbitTemplate;
     }
 
-    @RabbitListener(queues = RabbitConfig.RPC_MESSAGE_QUEUE)
-    public void process(List<CartDto> dtos) {
-        log.info("Received message from RabbitMQ: {}", dtos);
-        List<ProductDto> products = dtos.stream()
-                .map(dto -> productService.findProductById(dto.getProductId()))
+    @KafkaListener(topics = "products-send")
+    @SendTo
+    // TODO excessoes
+    public Message<?> listen(ConsumerRecord<String, Object> consumerRecord) throws JsonProcessingException {
+        ProductListDto productListDto = objectMapper.readValue(String.valueOf(consumerRecord.value()), ProductListDto.class);
+        log.info("Received request: {}", productListDto);
+
+        List<ProductDto> products = productListDto.getIds()
+                .stream()
+                .map(productService::findProductById)
                 .toList();
 
-        rabbitTemplate.convertSendAndReceive(RabbitConfig.RPC_EXCHANGE, RabbitConfig.RPC_REPLY_MESSAGE_QUEUE, products);
+        PayloadProducts payloadProducts = new PayloadProducts();
+        payloadProducts.setProducts(products);
+
+        return MessageBuilder.withPayload( objectMapper.writeValueAsString(payloadProducts) )
+                .build();
     }
 
 }

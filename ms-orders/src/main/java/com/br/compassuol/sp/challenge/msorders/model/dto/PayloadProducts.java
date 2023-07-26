@@ -1,12 +1,12 @@
 package com.br.compassuol.sp.challenge.msorders.model.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-public class CartDto {
-    Long productId;
+public class PayloadProducts {
+    private List<ProductDto> products;
 }
