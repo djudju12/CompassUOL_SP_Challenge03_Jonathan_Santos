@@ -1,5 +1,6 @@
-package com.br.compassuol.sp.challenge.msorders.model.dto;
+package com.br.compassuol.sp.challenge.msorders.model.dto.orders;
 
+import com.br.compassuol.sp.challenge.msorders.model.dto.products.ProductDto;
 import com.br.compassuol.sp.challenge.msorders.model.enums.OrderStatus;
 import lombok.Data;
 import lombok.NoArgsConstructor;

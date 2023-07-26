@@ -1,4 +1,4 @@
-package com.br.compassuol.sp.challenge.msorders.model.dto;
+package com.br.compassuol.sp.challenge.msorders.model.dto.products;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotEmpty;

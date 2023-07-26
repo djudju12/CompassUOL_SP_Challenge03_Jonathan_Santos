@@ -28,6 +28,9 @@ public class Order {
     // TODO - default value no sql
     private OrderStatus status;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    private DeliveryAddress deliveryAddress;
+
     public Order setProducts(List<OrderedProduct> items) {
         this.products = items;
         this.products.forEach(item -> item.setOrder(this));

@@ -1,8 +1,7 @@
 package com.br.compassuol.sp.challenge.msorders.service;
 
-import com.br.compassuol.sp.challenge.msorders.model.dto.DetailedOrderDto;
-import com.br.compassuol.sp.challenge.msorders.model.dto.OrderDto;
-import com.br.compassuol.sp.challenge.msorders.model.entity.Order;
+import com.br.compassuol.sp.challenge.msorders.model.dto.orders.DetailedOrderDto;
+import com.br.compassuol.sp.challenge.msorders.model.dto.orders.OrderDto;
 
 import java.util.List;
 

@@ -1,8 +1,8 @@
 package com.br.compassuol.sp.challenge.msorders.service.implementation;
 
-import com.br.compassuol.sp.challenge.msorders.model.dto.PayloadProducts;
-import com.br.compassuol.sp.challenge.msorders.model.dto.ProductDto;
-import com.br.compassuol.sp.challenge.msorders.model.dto.ProductListDto;
+import com.br.compassuol.sp.challenge.msorders.model.dto.products.PayloadProducts;
+import com.br.compassuol.sp.challenge.msorders.model.dto.products.ProductDto;
+import com.br.compassuol.sp.challenge.msorders.model.dto.products.ProductListDto;
 import com.br.compassuol.sp.challenge.msorders.service.SenderMessageService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
