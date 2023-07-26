@@ -1,19 +1,21 @@
-package com.br.compassuol.sp.challenge.msorders.model.mapper;
+package com.br.compassuol.sp.challenge.msorders.model.mapper.implementation;
 
 import com.br.compassuol.sp.challenge.msorders.model.dto.address.DeliveryAddressDto;
 import com.br.compassuol.sp.challenge.msorders.model.dto.orders.DetailedOrderDto;
 import com.br.compassuol.sp.challenge.msorders.model.dto.orders.OrderDto;
 import com.br.compassuol.sp.challenge.msorders.model.dto.products.ProductDto;
-import com.br.compassuol.sp.challenge.msorders.model.dto.products.ProductListDto;
+import com.br.compassuol.sp.challenge.msorders.model.dto.products.PayloadProductsRequest;
 import com.br.compassuol.sp.challenge.msorders.model.entity.DeliveryAddress;
 import com.br.compassuol.sp.challenge.msorders.model.entity.OrderedProduct;
 import com.br.compassuol.sp.challenge.msorders.model.entity.Order;
+import com.br.compassuol.sp.challenge.msorders.model.mapper.DeliveryAddressMapper;
+import com.br.compassuol.sp.challenge.msorders.model.mapper.OrderMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-public class OrderMapperImpl implements OrderMapper{
+public class OrderMapperImpl implements OrderMapper {
 
     private final DeliveryAddressMapper addressMapper;
 
@@ -28,7 +30,7 @@ public class OrderMapperImpl implements OrderMapper{
                 .setId(order.getId())
                 .setUserId(order.getUserId())
                 .setStatus(order.getStatus())
-                .setProducts( orderedProductListToProductListDto(order.getProducts()) )
+                .setProducts( toProductRequest(order.getProducts()) )
                 .setDeliveryAddress( addressMapper.toDto(deliveryAddress) );
         }
 
@@ -54,7 +56,7 @@ public class OrderMapperImpl implements OrderMapper{
     }
 
     @Override
-    public List<OrderedProduct> productListToOrderedProduct(ProductListDto productsIds) {
+    public List<OrderedProduct> productListToOrderedProduct(PayloadProductsRequest productsIds) {
         return productsIds
                 .getIds()
                 .stream()
@@ -63,8 +65,8 @@ public class OrderMapperImpl implements OrderMapper{
     }
 
     @Override
-    public ProductListDto orderedProductListToProductListDto(List<OrderedProduct> orderedProducts) {
-        return new ProductListDto().setIds(orderedProducts
+    public PayloadProductsRequest toProductRequest(List<OrderedProduct> orderedProducts) {
+        return new PayloadProductsRequest().setIds(orderedProducts
                 .stream()
                 .map(OrderedProduct::getProductId)
                 .toList());

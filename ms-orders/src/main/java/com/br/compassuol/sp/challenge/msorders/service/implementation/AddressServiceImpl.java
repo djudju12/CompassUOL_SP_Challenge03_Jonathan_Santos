@@ -33,20 +33,16 @@ public class AddressServiceImpl implements AddressService {
     // TODO - sera que da pra validar os dois campos com uma unica anotacao?
     public DeliveryAddressDto completeThisAddress(@Valid DeliveryAddressDto deliveryAddressDto) {
         String zipCode = deliveryAddressDto.getZipCode();
-        String number = deliveryAddressDto.getNumber();
-        if (!StringUtils.hasText(zipCode)) {
+        if (!StringUtils.hasText(zipCode))
             throw new IllegalArgumentException("Zip code is required");
-        }
 
-        log.info("Completing address with zipcode: {}, number: {}", zipCode, number);
+        String number = deliveryAddressDto.getNumber();
 
         DeliveryAddressDto completedAddress;
         if (addressRepository.existsByZipCodeAndNumber(zipCode, number)) {
             log.info("Address already exists in database. zipcode: {}, number: {}. Retrieving it...",
                     zipCode, number);
-
-            DeliveryAddress savedAddress = addressRepository
-                    .findByZipCodeAndNumber(zipCode, number);
+            DeliveryAddress savedAddress = addressRepository.findByZipCodeAndNumber(zipCode, number);
 
             completedAddress = addressMapper.toDto(savedAddress);
             completedAddress.setNumber(number);
@@ -54,6 +50,7 @@ public class AddressServiceImpl implements AddressService {
         } else {
             log.info("Querying address from external API {}", deliveryAddressDto);
             AddressResponse addressResponse = addressProxy.getAddressByCep(zipCode);
+
             // Remove o hifen do CEP
             addressResponse.setZipCode(cleanZipCode(addressResponse.getZipCode()));
 

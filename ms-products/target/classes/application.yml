@@ -21,6 +21,15 @@ spring:
     send-topic: products-send
     reply-topic: products-reply
     consumer-group: products-group
+  data:
+    web:
+      pageable:
+        default-page-size: 10
+        max-page-size: 100
+        page-parameter: page
+        size-parameter: size
+      sort:
+        sort-parameter: sort
 
 server:
   port: 8000

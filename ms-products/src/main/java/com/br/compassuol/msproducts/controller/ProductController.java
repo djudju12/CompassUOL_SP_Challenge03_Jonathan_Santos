@@ -3,6 +3,7 @@ package com.br.compassuol.msproducts.controller;
 import com.br.compassuol.msproducts.model.dto.ProductDto;
 import com.br.compassuol.msproducts.service.ProductService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,12 +24,8 @@ public class ProductController {
     // TODO - default na properties
     // TODO - validar os parametros
     @GetMapping(value = {"/", ""})
-    public ResponseEntity<List<ProductDto>> getProducts(@RequestParam(defaultValue = "0") int page,
-                                                        @RequestParam(defaultValue = "10") int linesPerPage,
-                                                        @RequestParam(defaultValue = "asc") String direction,
-                                                        @RequestParam(defaultValue = "name") String orderBy) {
-
-        List<ProductDto> productList = productService.findAllProducts(page, linesPerPage, direction, orderBy);
+    public ResponseEntity<List<ProductDto>> getProducts(Pageable page) {
+        List<ProductDto> productList = productService.findAllProducts(page);
         return new ResponseEntity<>(productList, HttpStatus.OK);
     }
 

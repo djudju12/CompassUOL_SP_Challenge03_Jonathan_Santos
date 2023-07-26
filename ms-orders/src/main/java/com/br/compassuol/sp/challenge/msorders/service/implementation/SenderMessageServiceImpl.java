@@ -1,8 +1,8 @@
 package com.br.compassuol.sp.challenge.msorders.service.implementation;
 
-import com.br.compassuol.sp.challenge.msorders.model.dto.products.PayloadProducts;
+import com.br.compassuol.sp.challenge.msorders.model.dto.products.PayloadProductsResponse;
 import com.br.compassuol.sp.challenge.msorders.model.dto.products.ProductDto;
-import com.br.compassuol.sp.challenge.msorders.model.dto.products.ProductListDto;
+import com.br.compassuol.sp.challenge.msorders.model.dto.products.PayloadProductsRequest;
 import com.br.compassuol.sp.challenge.msorders.service.SenderMessageService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
@@ -37,15 +37,15 @@ public class SenderMessageServiceImpl implements SenderMessageService {
     // TODO - Melhorar isso
     @Override
     @SneakyThrows
-    public List<ProductDto> getProductsDescription(ProductListDto productListDto) {
-        String jsonContent = objectMapper.writeValueAsString(productListDto);
+    public List<ProductDto> getProductsDescription(PayloadProductsRequest payloadProductsRequest) {
+        String jsonContent = objectMapper.writeValueAsString(payloadProductsRequest);
         ProducerRecord<Long, String> record = new ProducerRecord<>(sendTopic, 1L, jsonContent);
         RequestReplyFuture<Long, String, Object> replyFuture = kafkaTemplate.sendAndReceive(record);
         SendResult<Long, String> sendResult = replyFuture.getSendFuture().get(10, TimeUnit.SECONDS);
         ConsumerRecord<Long, Object> consumerRecord = replyFuture.get(10, TimeUnit.SECONDS);
 
         Object result = consumerRecord.value();
-        PayloadProducts payload = objectMapper.readValue(String.valueOf(result), PayloadProducts.class);
+        PayloadProductsResponse payload = objectMapper.readValue(String.valueOf(result), PayloadProductsResponse.class);
         return payload.getProducts();
     }
 }

@@ -6,8 +6,7 @@ import com.br.compassuol.msproducts.model.entity.Product;
 import com.br.compassuol.msproducts.model.mapper.ProductMapper;
 import com.br.compassuol.msproducts.repository.ProductRepository;
 import com.br.compassuol.msproducts.service.ProductService;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,15 +23,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDto> findAllProducts(int page, int linesPerPage, String direction, String orderBy) {
-        PageRequest pageRequest = PageRequest.of(
-                page,
-                linesPerPage,
-                Sort.Direction.fromString(direction),
-                orderBy
-        );
-
-        return productRepository.findAll(pageRequest)
+    public List<ProductDto> findAllProducts(Pageable page) {
+        return productRepository.findAll(page)
                 .getContent()
                 .stream()
                 .map(productMapper::toDto)

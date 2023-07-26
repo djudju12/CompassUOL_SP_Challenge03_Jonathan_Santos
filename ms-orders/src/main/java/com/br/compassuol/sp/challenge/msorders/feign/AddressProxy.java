@@ -10,5 +10,5 @@ public interface AddressProxy {
 
     //TODO - e se falhar? e se demorar?
     @GetMapping("{cep}/json")
-    AddressResponse getAddressByCep(@PathVariable(required = true) String cep);
+    AddressResponse getAddressByCep(@PathVariable String cep);
 }

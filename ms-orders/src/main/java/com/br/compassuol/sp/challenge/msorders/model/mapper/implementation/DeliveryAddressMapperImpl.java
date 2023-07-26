@@ -1,11 +1,12 @@
-package com.br.compassuol.sp.challenge.msorders.model.mapper;
+package com.br.compassuol.sp.challenge.msorders.model.mapper.implementation;
 
 import com.br.compassuol.sp.challenge.msorders.model.dto.address.DeliveryAddressDto;
 import com.br.compassuol.sp.challenge.msorders.model.entity.DeliveryAddress;
+import com.br.compassuol.sp.challenge.msorders.model.mapper.DeliveryAddressMapper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DeliveryAddressMapperImpl implements DeliveryAddressMapper  {
+public class DeliveryAddressMapperImpl implements DeliveryAddressMapper {
     @Override
     public DeliveryAddress toEntity(DeliveryAddressDto dto) {
         return new DeliveryAddress()

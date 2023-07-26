@@ -1,7 +1,7 @@
 package com.br.compassuol.sp.challenge.msorders.model.dto.orders;
 
 import com.br.compassuol.sp.challenge.msorders.model.dto.address.DeliveryAddressDto;
-import com.br.compassuol.sp.challenge.msorders.model.dto.products.ProductListDto;
+import com.br.compassuol.sp.challenge.msorders.model.dto.products.PayloadProductsRequest;
 import com.br.compassuol.sp.challenge.msorders.model.enums.OrderStatus;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -14,7 +14,7 @@ import lombok.experimental.Accessors;
 public class OrderDto {
     private Long id;
     private Long userId;
-    private ProductListDto products;
+    private PayloadProductsRequest products;
     private OrderStatus status;
 
     @NotNull(message = "Delivery address is required")
