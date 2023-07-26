@@ -2,16 +2,20 @@ spring:
   application:
     name: ms-orders
   datasource:
-    url: jdbc:postgresql://localhost:5432/desafio
+    url: jdbc:postgresql://localhost:5432/orders
     username: postgres
     password: root
     driver-class-name: org.postgresql.Driver
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true # logging
-#  rabbitmq:
-#    addresses: ${QUEUE_ADDR}
-#    queue: ms-email
+    hibernate:
+      ddl-auto: create-drop # create-drop
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
 
 server:
   port: 8100
