@@ -12,7 +12,7 @@ spring:
     hibernate:
       ddl-auto: create-drop # create-drop
   kafka:
-    bootstrap-servers: localhost:29092
+    bootstrap-servers: ${KAFKA_HOST}
     producer:
       key-serializer: org.apache.kafka.common.serialization.LongSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer

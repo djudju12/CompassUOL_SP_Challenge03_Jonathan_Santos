@@ -25,10 +25,10 @@ public class Order {
     private List<OrderedProduct> products;
 
     @Enumerated(EnumType.STRING)
-    // TODO - default value no sql
     private OrderStatus status;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "delivery_address_id")
     private DeliveryAddress deliveryAddress;
 
     public Order setProducts(List<OrderedProduct> items) {

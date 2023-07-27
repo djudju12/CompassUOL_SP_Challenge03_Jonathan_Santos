@@ -1,6 +1,6 @@
 ---
 # This kafka compose is from https://gist.github.com/rmoff/fb7c39cc189fc6082a5fbd390ec92b3d
-version: '3.8'
+version: '2'
 services:
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
@@ -31,9 +31,12 @@ services:
       - POSTGRES_PASSWORD=postgres
     networks:
       - default
-#    volumes:
-#      - db:/var/lib/postgresql/data
-#
+    volumes:
+      - db:/var/lib/postgresql/data
+      - ./auth.sql:/docker-entrypoint-initdb.d/auth.sql
+      - ./orders.sql:/docker-entrypoint-initdb.d/orders.sql
+      - ./products.sql:/docker-entrypoint-initdb.d/products.sql
+
   msproducts:
     image: djudju12/compass-challenge03-ms-products:0.0.1-SNAPSHOT
     networks:
@@ -44,8 +47,8 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_HOST=jdbc:postgresql://db:5432/postgres
-
+      - POSTGRES_HOST=jdbc:postgresql://db:5432/challenge3_products
+      - KAFKA_HOST=kafka:9092
 
   msorders:
     image: djudju12/compass-challenge03-ms-orders:0.0.1-SNAPSHOT
@@ -57,7 +60,8 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_HOST=jdbc:postgresql://db:5432/postgres
+      - POSTGRES_HOST=jdbc:postgresql://db:5432/challenge3_orders
+      - KAFKA_HOST=kafka:9092
 
   msauth:
     image: djudju12/compass-challenge03-ms-auth:0.0.1-SNAPSHOT
@@ -69,7 +73,8 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_HOST=jdbc:postgresql://db:5432/postgres
+      - POSTGRES_HOST=jdbc:postgresql://db:5432/challenge3_auth
+      - KAFKA_HOST=kafka:9092
 
   msgateway:
     image: djudju12/compass-challenge03-ms-gateway:0.0.1-SNAPSHOT
@@ -77,10 +82,9 @@ services:
       - default
     ports:
       - "8765:8765"
-#
-#networks:
-#  default:
-#
-#volumes:
-#  db:
-#    driver: local
+
+networks:
+  default:
+
+volumes:
+  db:
