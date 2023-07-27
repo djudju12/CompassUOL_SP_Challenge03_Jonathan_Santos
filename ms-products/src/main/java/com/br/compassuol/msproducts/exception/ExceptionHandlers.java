@@ -16,14 +16,18 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class ExceptionHandlers extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(ProductIdNotFoundException.class)
+    @ExceptionHandler({
+            ProductIdNotFoundException.class
+    })
     protected ResponseEntity<ErrorResponse> handleNotFoundException(Exception exc) {
         ErrorResponse error = new ErrorResponse(HttpStatus.NOT_FOUND.value(), exc.getMessage());
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler({PropertyReferenceException.class})
-    protected ResponseEntity<ErrorResponse> handleMisuseOfCancel(Exception exc){
+    @ExceptionHandler({
+            PropertyReferenceException.class
+    })
+    protected ResponseEntity<ErrorResponse> handleInvalidPageParameter(Exception exc){
         ErrorResponse error = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), exc.getMessage());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }

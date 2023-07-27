@@ -73,7 +73,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderDto> findAllOrders(Pageable page) {
-        return orderRepository.findAllActiveOrders(page)
+        return orderRepository.findAllByStatusIsNot(OrderStatus.CANCELED, page)
                 .getContent()
                 .stream()
                 .map(orderMapper::toDto)

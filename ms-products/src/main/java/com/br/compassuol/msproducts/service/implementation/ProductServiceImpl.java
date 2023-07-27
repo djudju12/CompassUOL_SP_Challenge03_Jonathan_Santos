@@ -17,6 +17,7 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
+
     public ProductServiceImpl(ProductRepository productRepository,
                               ProductMapper productMapper) {
         this.productRepository = productRepository;
@@ -65,6 +66,7 @@ public class ProductServiceImpl implements ProductService {
         List<ProductDto> products = new ArrayList<>();
         Map<Long, String> errors = new HashMap<>();
 
+        // If id is not found, add to errors map
         for (Long id : ids) {
             Optional<Product> p = productRepository.findById(id);
             if (p.isPresent()) {
@@ -74,9 +76,9 @@ public class ProductServiceImpl implements ProductService {
             }
         }
 
-        payload.setProducts(products);
-        payload.setErrors(errors);
-        return payload;
+        return payload
+                .setProducts(products)
+                .setErrors(errors);
     }
 
 }

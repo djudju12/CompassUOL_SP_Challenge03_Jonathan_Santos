@@ -1,6 +1,21 @@
 spring:
   application:
     name: ms-gateway
+
+app:
+  jwt:
+    Secret: 2bb80d537b1da3e38bd30361aa855686bde0eacd7162fef6a25fe97bf527a25b
+
+server:
+  port: 8765
+  error:
+    # Necessário para mostrar a mensagem no json quando um erro é retornado
+    include-message: always
+---
+spring:
+  .config:
+    activate:
+      on-profile: container
   cloud:
     gateway:
       routes:
@@ -23,12 +38,30 @@ spring:
           predicates:
               - Path=/auth/**
               - Method=POST
-
-app:
-  jwt:
-    Secret: 2bb80d537b1da3e38bd30361aa855686bde0eacd7162fef6a25fe97bf527a25b
-
-server:
-  port: 8765
-  error:
-    include-message: always # Necessário para mostrar a mensagem no json quando um erro é retornado
+---
+spring:
+  .config:
+    activate:
+      on-profile: local
+  cloud:
+    gateway:
+      routes:
+        - id: ms-products
+          uri: http://localhost:8000
+          predicates:
+            - Path=/products/**
+            - Method=GET, POST, PUT, DELETE
+          filters:
+            - name: JwtFilter
+        - id: ms-orders
+          uri: http://localhost:8100
+          predicates:
+            - Path=/orders/**
+            - Method=GET, POST, PUT, DELETE
+          filters:
+            - name: JwtFilter
+        - id: ms-auth
+          uri: http://localhost:9000
+          predicates:
+              - Path=/auth/**
+              - Method=POST
