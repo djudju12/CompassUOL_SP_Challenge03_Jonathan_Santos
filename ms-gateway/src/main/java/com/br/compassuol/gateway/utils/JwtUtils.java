@@ -5,6 +5,7 @@ import com.br.compassuol.gateway.exceptions.types.UnathorizedJwtTokenException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
@@ -19,10 +20,9 @@ public class JwtUtils {
     @Value("${app.jwt.Secret}")
     private String jwtSecret;
 
-    /**
-     *
-     * @param serverWebExchange
-     * @return apenas o JWT do request
+    /*
+     * This function returns just the token from the request
+     * without the "Bearer " prefix
      */
     public String getTokenFromServerWebExchange(ServerWebExchange serverWebExchange) {
         List<String> authHeader = serverWebExchange.getRequest()
@@ -38,18 +38,21 @@ public class JwtUtils {
             throw new InvalidJwtTokenException();
         }
 
+        // Here we make sure that bearer shall not pass
         return token.substring("Bearer ".length());
     }
 
-    public boolean tokenIsValid(String token) {
+    public void validateToken(String token) {
         try {
             Jwts.parserBuilder()
                     .setSigningKey(key())
                     .build()
-                    .parse(token);
-            return true;
+
+            // If parse fails means that token is unauthorized
+            // Throws many exceptions
+            .parse(token);
         } catch (Exception e) {
-            throw new UnathorizedJwtTokenException(e);
+            throw new UnathorizedJwtTokenException(e.getMessage());
         }
     }
 

@@ -16,15 +16,13 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
-
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
 
-    // TODO - default na properties
-    // TODO - validar os parametros
     @GetMapping(value = {"/", ""})
     public ResponseEntity<List<ProductDto>> getProducts(Pageable page) {
+        // Default page properties in application.(yml|properties)
         List<ProductDto> productList = productService.findAllProducts(page);
         return new ResponseEntity<>(productList, HttpStatus.OK);
     }
@@ -39,6 +37,7 @@ public class ProductController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteProduct(@PathVariable Long id) {
+        // This method in fact delete a product from the database
         productService.deleteProduct(id);
     }
 

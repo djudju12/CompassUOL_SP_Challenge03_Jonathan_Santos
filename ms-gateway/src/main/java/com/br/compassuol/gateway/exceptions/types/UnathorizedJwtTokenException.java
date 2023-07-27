@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 public class UnathorizedJwtTokenException extends ResponseStatusException {
-    public UnathorizedJwtTokenException(Throwable cause) {
-        super(HttpStatus.UNAUTHORIZED, cause.getMessage());
+    public UnathorizedJwtTokenException(String message) {
+        super(HttpStatus.UNAUTHORIZED, message);
     }
 }

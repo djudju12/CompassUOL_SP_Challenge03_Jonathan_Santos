@@ -54,7 +54,6 @@ class ProductControllerTest {
                 .setDescription(PRODUCTS_DESCRIPTION);
     }
 
-    // TODO - testar validação do DTO, Excessões personalizadas
     @Test
     void getProducts__ReturnsDtoList() throws Exception {
          // given

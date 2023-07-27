@@ -23,6 +23,8 @@ public class DeliveryAddressMapperImpl implements DeliveryAddressMapper {
 
     @Override
     public DeliveryAddressDto toDto(DeliveryAddress deliveryAddress) {
+        // Have to use builder because accessors don't work
+        // with inheritance in the way I thought they would
         return DeliveryAddressDto.builder()
                 .id(deliveryAddress.getId())
                 .number(deliveryAddress.getNumber())

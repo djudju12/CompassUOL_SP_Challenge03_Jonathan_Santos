@@ -74,6 +74,10 @@ public class OrderServiceImpl implements OrderService {
         orderRepository.save(order);
     }
 
+    /*
+     * Here we exchange messages with the product service to get the product details
+     * to build the response.
+     */
     @Override
     public DetailedOrderDto findWithDetails(long oderId) {
         Order findOrder = orderRepository.findByIdActive(oderId).orElseThrow(
@@ -83,6 +87,7 @@ public class OrderServiceImpl implements OrderService {
         List<OrderedProduct> orderedProducts = findOrder.getProducts();
 
         // TODO - exception (produto nao encotrado) -> Seria interessante um atributo de erro no payload
+        // Exchange messages
         PayloadProductsRequest items = orderMapper.toProductRequest(orderedProducts);
         List<ProductDto> details = senderMessageService.getProductsDescription(items);
 

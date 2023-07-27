@@ -2,7 +2,10 @@ package com.br.compassuol.msproducts.exception.types;
 
 
 public class ProductIdNotFoundException extends RuntimeException {
+
+    private static final String MESSAGE = "Product with id not found.";
+
     public ProductIdNotFoundException(long id) {
-        super(String.format("Product with id %d not found", id));
+        super(MESSAGE + " Id: " + id);
     }
 }

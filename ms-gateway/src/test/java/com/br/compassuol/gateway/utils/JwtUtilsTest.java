@@ -58,7 +58,7 @@ class JwtUtilsTest {
     void tokenIsValid_ReceivesInvalidToken_ThrowsException() {
         // when then
         assertThatExceptionOfType(UnathorizedJwtTokenException.class).isThrownBy(
-                () -> jwtUtils.tokenIsValid(TOKEN)
+                () -> jwtUtils.validateToken(TOKEN)
         );
     }
 }

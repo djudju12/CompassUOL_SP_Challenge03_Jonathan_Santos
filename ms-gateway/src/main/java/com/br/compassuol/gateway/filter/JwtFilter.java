@@ -4,9 +4,7 @@ import com.br.compassuol.gateway.utils.JwtUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import org.springframework.web.server.ResponseStatusException;
 
 @Component
 @Slf4j
@@ -22,9 +20,11 @@ public class JwtFilter extends AbstractGatewayFilterFactory<JwtFilter.Config> {
     @Override
     public GatewayFilter apply(Config config) {
         return (exchange, chain) -> {
+            // Token from request
             String token = jwtUtils.getTokenFromServerWebExchange(exchange);
-            if (!jwtUtils.tokenIsValid(token))
-                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token expired");
+
+            // If token is unauthorized throws an exception
+            jwtUtils.validateToken(token);
 
             return chain.filter(exchange);
         };

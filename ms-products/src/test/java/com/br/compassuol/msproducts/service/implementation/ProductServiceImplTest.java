@@ -78,7 +78,7 @@ class ProductServiceImplTest {
         then(productRepository).should().delete(expectedProduct);
     }
 
-    /**
+    /*
      * Nested classes are used to group tests that are related to the same action (modification of entities).
      * This way, we can have a better organization of our tests and reuse some mocks.
      */

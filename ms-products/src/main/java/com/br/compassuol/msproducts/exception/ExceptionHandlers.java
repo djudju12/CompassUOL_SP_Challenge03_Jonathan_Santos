@@ -2,6 +2,7 @@ package com.br.compassuol.msproducts.exception;
 
 import com.br.compassuol.msproducts.exception.types.ProductIdNotFoundException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -16,9 +17,15 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class ExceptionHandlers extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ProductIdNotFoundException.class)
-    protected ResponseEntity<ErrorResponse> handleNotFoundException(Exception exc){
+    protected ResponseEntity<ErrorResponse> handleNotFoundException(Exception exc) {
         ErrorResponse error = new ErrorResponse(HttpStatus.NOT_FOUND.value(), exc.getMessage());
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler({PropertyReferenceException.class})
+    protected ResponseEntity<ErrorResponse> handleMisuseOfCancel(Exception exc){
+        ErrorResponse error = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), exc.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
     @Override

@@ -24,9 +24,9 @@ public class OrdersController {
         this.orderService = orderService;
     }
 
-    // TODO - validar os parametros
     @GetMapping(value = {"/", ""})
     public ResponseEntity<List<OrderDto>> getProducts(Pageable page) {
+        // Page settings are defined in application.file
         List<OrderDto> orderList = orderService.findAllOrders(page);
         return new ResponseEntity<>(orderList, HttpStatus.OK);
     }
@@ -42,15 +42,24 @@ public class OrdersController {
         return new ResponseEntity<>(newOrder, HttpStatus.CREATED);
     }
 
+
+    /*
+     * I use DELETE verb because I think it's a more semantic way to cancel an order.
+     * But remember that this method just set the order status to CANCELED (27/06/2023).
+     */
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void cancelOrder(@PathVariable long id) {
         orderService.cancelOrder(id);
     }
 
+    /*
+     * This method update just the order status, but note that is not possible to change to CANCELED.
+     * To cancel an order, use DELETE verb.
+     */
     @PutMapping("/{id}")
     public ResponseEntity<OrderDto> updateOrder(@PathVariable long id,
-                            @Valid @RequestBody UpdateOrderDto orderDto) {
+                                                @Valid @RequestBody UpdateOrderDto orderDto) {
 
         OrderDto updatedOrder = orderService.updateOrder(id, orderDto);
         return new ResponseEntity<>(updatedOrder, HttpStatus.OK);

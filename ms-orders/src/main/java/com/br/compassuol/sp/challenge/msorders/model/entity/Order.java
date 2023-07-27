@@ -33,7 +33,7 @@ public class Order {
 
     public Order setProducts(List<OrderedProduct> items) {
         this.products = items;
-        this.products.forEach(item -> item.setOrder(this));
+        this.products.forEach(product -> product.setOrder(this));
         return this;
     }
 }

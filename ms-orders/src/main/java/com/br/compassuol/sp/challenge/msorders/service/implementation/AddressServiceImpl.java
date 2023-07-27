@@ -7,7 +7,6 @@ import com.br.compassuol.sp.challenge.msorders.model.entity.DeliveryAddress;
 import com.br.compassuol.sp.challenge.msorders.model.mapper.DeliveryAddressMapper;
 import com.br.compassuol.sp.challenge.msorders.repository.AddressRepository;
 import com.br.compassuol.sp.challenge.msorders.service.AddressService;
-import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -29,16 +28,17 @@ public class AddressServiceImpl implements AddressService {
         this.addressMapper = addressMapper;
     }
 
+    /*
+     * Take an address with zip code and number and complete it with the other fields
+     * If the address is already in the database, retrieve it
+     * else query the external API and save it in the database
+     */
     @Override
-    // TODO - sera que da pra validar os dois campos com uma unica anotacao?
-    public DeliveryAddressDto completeThisAddress(@Valid DeliveryAddressDto deliveryAddressDto) {
+    public DeliveryAddressDto completeThisAddress(DeliveryAddressDto deliveryAddressDto) {
         String zipCode = deliveryAddressDto.getZipCode();
-        if (!StringUtils.hasText(zipCode))
-            throw new IllegalArgumentException("Zip code is required");
-
         String number = deliveryAddressDto.getNumber();
-
         DeliveryAddressDto completedAddress;
+
         if (addressRepository.existsByZipCodeAndNumber(zipCode, number)) {
             log.info("Address already exists in database. zipcode: {}, number: {}. Retrieving it...",
                     zipCode, number);
@@ -51,7 +51,7 @@ public class AddressServiceImpl implements AddressService {
             log.info("Querying address from external API {}", deliveryAddressDto);
             AddressResponse addressResponse = addressProxy.getAddressByCep(zipCode);
 
-            // Remove o hifen do CEP
+            // Remove hyphen from zip code
             addressResponse.setZipCode(cleanZipCode(addressResponse.getZipCode()));
 
             completedAddress = new DeliveryAddressDto();
