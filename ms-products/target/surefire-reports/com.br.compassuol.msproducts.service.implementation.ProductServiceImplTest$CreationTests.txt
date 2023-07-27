@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.br.compassuol.msproducts.service.implementation.ProductServiceImplTest$CreationTests
+-------------------------------------------------------------------------------
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 0.198 s - in com.br.compassuol.msproducts.service.implementation.ProductServiceImplTest$CreationTests

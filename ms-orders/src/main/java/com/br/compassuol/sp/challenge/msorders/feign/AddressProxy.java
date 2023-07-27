@@ -14,7 +14,7 @@ public interface AddressProxy {
     @GetMapping("{cep}/json")
     AddressResponse getAddressByCep(@PathVariable
                                     @Valid
-                                        @Pattern(regexp = "^[0-9]{5}-[0-9]{3}$",
-                                                 message = "CEP must have 5 digits, a dash, and 3 digits")
+                                        @Pattern(regexp = "^[0-9]{5}-?[0-9]{3}$",
+                                                 message = "CEP must have 8 digits, a optional dash, and 3 digits")
                                     String cep);
 }

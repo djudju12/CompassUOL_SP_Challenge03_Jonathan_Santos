@@ -16,6 +16,16 @@ spring:
   sql:
     init:
       mode: always
+  kafka:
+    bootstrap-servers: localhost:29092
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.LongDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      group-id: products-group
+  my-topics:
+    send-topic: users-send
+    reply-topic: users-reply
+    consumer-group: products-group
 
 app:
   jwt:

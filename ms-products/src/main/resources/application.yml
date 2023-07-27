@@ -3,6 +3,7 @@ spring:
     name: ms-products
   datasource:
     url: jdbc:postgresql://localhost:5432/desafio
+#    url: ${DB_URL:jdbc:postgresql://host.docker.internal:5432/desafio}
     username: postgres
     password: root
     driver-class-name: org.postgresql.Driver

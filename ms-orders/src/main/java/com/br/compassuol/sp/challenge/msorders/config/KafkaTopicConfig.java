@@ -13,6 +13,11 @@ public class KafkaTopicConfig {
 
     @Value("${spring.my-topics.reply-topic}")
     private String replyTopic;
+    @Value("${spring.my-topics.user-send-topic}")
+    private String userSendTopic;
+
+    @Value("${spring.my-topics.user-reply-topic}")
+    private String userReplyTopic;
 
     @Bean
     public NewTopic sendTopic() {
@@ -25,6 +30,21 @@ public class KafkaTopicConfig {
     @Bean
     public NewTopic replyTopic() {
         return TopicBuilder.name(replyTopic)
+                .partitions(1)
+                .replicas(1)
+                .build();
+    }
+    @Bean
+    public NewTopic userSendTopic() {
+        return TopicBuilder.name(userSendTopic)
+                .partitions(1)
+                .replicas(1)
+                .build();
+    }
+
+    @Bean
+    public NewTopic userReplyTopic() {
+        return TopicBuilder.name(userReplyTopic)
                 .partitions(1)
                 .replicas(1)
                 .build();

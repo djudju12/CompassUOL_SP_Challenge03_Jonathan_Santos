@@ -70,6 +70,17 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <pullPolicy>IF_NOT_PRESENT</pullPolicy>
+
+                    <image>
+                        <name>djudju12/compass-challenge03-${project.artifactId}:${project.version}</name>
+
+                        <env>
+                            <BP_JVM_VERSION>${java.version}</BP_JVM_VERSION>
+                        </env>
+                    </image>
+                </configuration>
             </plugin>
         </plugins>
     </build>

@@ -2,12 +2,14 @@ package com.br.compassuol.sp.challenge.msorders.service.implementation;
 
 import com.br.compassuol.sp.challenge.msorders.exception.types.CancelOrderMisuseException;
 import com.br.compassuol.sp.challenge.msorders.exception.types.OrderIdNotFoundException;
+import com.br.compassuol.sp.challenge.msorders.exception.types.ProductErrorResponseException;
+import com.br.compassuol.sp.challenge.msorders.exception.types.UserIdNotFoundException;
 import com.br.compassuol.sp.challenge.msorders.model.dto.address.DeliveryAddressDto;
 import com.br.compassuol.sp.challenge.msorders.model.dto.orders.DetailedOrderDto;
 import com.br.compassuol.sp.challenge.msorders.model.dto.orders.OrderDto;
 import com.br.compassuol.sp.challenge.msorders.model.dto.orders.UpdateOrderDto;
 import com.br.compassuol.sp.challenge.msorders.model.dto.products.PayloadProductsRequest;
-import com.br.compassuol.sp.challenge.msorders.model.dto.products.ProductDto;
+import com.br.compassuol.sp.challenge.msorders.model.dto.products.PayloadProductsResponse;
 import com.br.compassuol.sp.challenge.msorders.model.entity.Order;
 import com.br.compassuol.sp.challenge.msorders.model.entity.OrderedProduct;
 import com.br.compassuol.sp.challenge.msorders.model.enums.OrderStatus;
@@ -17,9 +19,9 @@ import com.br.compassuol.sp.challenge.msorders.service.AddressService;
 import com.br.compassuol.sp.challenge.msorders.service.OrderService;
 import com.br.compassuol.sp.challenge.msorders.service.SenderMessageService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 @Service
@@ -43,15 +45,29 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDto createOrder(OrderDto orderDto) {
+        Long userId = orderDto.getUserId();
+        if(!senderMessageService.userExists(userId)) {
+            throw new UserIdNotFoundException(userId);
+        }
+
+        // Exchange messages
+        PayloadProductsRequest request = orderDto.getProducts();
+        PayloadProductsResponse response = exchangeProductMessage(request);
+        if (!response.getErrors().isEmpty())
+            throw new ProductErrorResponseException(response.getErrors());
+
+        // Get completed address from address service
         DeliveryAddressDto providedAddress = orderDto.getDeliveryAddress();
         DeliveryAddressDto completedAddress = addressService.completeThisAddress(providedAddress);
         orderDto.setDeliveryAddress(completedAddress);
 
+        // Make the entity order and save it
         Order order = orderMapper.toEntity(orderDto);
         order.setId(0L);
         order.setStatus(OrderStatus.PENDING);
-
         Order newOrder = orderRepository.save(order);
+
+        // return dto
         return orderMapper.toDto(newOrder);
     }
 
@@ -86,12 +102,11 @@ public class OrderServiceImpl implements OrderService {
 
         List<OrderedProduct> orderedProducts = findOrder.getProducts();
 
-        // TODO - exception (produto nao encotrado) -> Seria interessante um atributo de erro no payload
         // Exchange messages
-        PayloadProductsRequest items = orderMapper.toProductRequest(orderedProducts);
-        List<ProductDto> details = senderMessageService.getProductsDescription(items);
+        PayloadProductsRequest request = orderMapper.toProductRequest(orderedProducts);
+        PayloadProductsResponse response = exchangeProductMessage(request);
 
-        return orderMapper.toDto(findOrder, details);
+        return orderMapper.toDto(findOrder, response.getProducts());
     }
 
     @Override
@@ -106,6 +121,10 @@ public class OrderServiceImpl implements OrderService {
         order.setStatus(status);
         Order updatedOrder = orderRepository.save(order);
         return orderMapper.toDto(updatedOrder);
+    }
+
+    private PayloadProductsResponse exchangeProductMessage(PayloadProductsRequest request) {
+        return senderMessageService.getProductsDescription(request);
     }
 
 }

@@ -1,0 +1,15 @@
+/home/jonathan/programacao/compass-desafio-3/ms-products/src/main/java/com/br/compassuol/msproducts/exception/ErrorResponse.java
+/home/jonathan/programacao/compass-desafio-3/ms-products/src/main/java/com/br/compassuol/msproducts/model/mapper/ProductMapper.java
+/home/jonathan/programacao/compass-desafio-3/ms-products/src/main/java/com/br/compassuol/msproducts/exception/ExceptionHandlers.java
+/home/jonathan/programacao/compass-desafio-3/ms-products/src/main/java/com/br/compassuol/msproducts/service/implementation/ProductServiceImpl.java
+/home/jonathan/programacao/compass-desafio-3/ms-products/src/main/java/com/br/compassuol/msproducts/controller/ProductListener.java
+/home/jonathan/programacao/compass-desafio-3/ms-products/src/main/java/com/br/compassuol/msproducts/model/entity/Product.java
+/home/jonathan/programacao/compass-desafio-3/ms-products/src/main/java/com/br/compassuol/msproducts/exception/types/ProductIdNotFoundException.java
+/home/jonathan/programacao/compass-desafio-3/ms-products/src/main/java/com/br/compassuol/msproducts/repository/ProductRepository.java
+/home/jonathan/programacao/compass-desafio-3/ms-products/src/main/java/com/br/compassuol/msproducts/model/dto/ProductDto.java
+/home/jonathan/programacao/compass-desafio-3/ms-products/src/main/java/com/br/compassuol/msproducts/model/mapper/ProductMapperImpl.java
+/home/jonathan/programacao/compass-desafio-3/ms-products/src/main/java/com/br/compassuol/msproducts/controller/ProductController.java
+/home/jonathan/programacao/compass-desafio-3/ms-products/src/main/java/com/br/compassuol/msproducts/MsProductsApplication.java
+/home/jonathan/programacao/compass-desafio-3/ms-products/src/main/java/com/br/compassuol/msproducts/model/dto/PayloadProducts.java
+/home/jonathan/programacao/compass-desafio-3/ms-products/src/main/java/com/br/compassuol/msproducts/model/dto/ProductListDto.java
+/home/jonathan/programacao/compass-desafio-3/ms-products/src/main/java/com/br/compassuol/msproducts/service/ProductService.java

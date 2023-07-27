@@ -1,6 +1,7 @@
 package com.br.compassuol.msproducts.service.implementation;
 
 import com.br.compassuol.msproducts.exception.types.ProductIdNotFoundException;
+import com.br.compassuol.msproducts.model.dto.PayloadProducts;
 import com.br.compassuol.msproducts.model.dto.ProductDto;
 import com.br.compassuol.msproducts.model.entity.Product;
 import com.br.compassuol.msproducts.model.mapper.ProductMapper;
@@ -9,7 +10,7 @@ import com.br.compassuol.msproducts.service.ProductService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -59,11 +60,23 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDto findProductById(Long id) {
-        Product product = productRepository.findById(id)
-                .orElseThrow(() -> new ProductIdNotFoundException(id));
+    public PayloadProducts findAllById(List<Long> ids) {
+        PayloadProducts payload = new PayloadProducts();
+        List<ProductDto> products = new ArrayList<>();
+        Map<Long, String> errors = new HashMap<>();
 
-        return productMapper.toDto(product);
+        for (Long id : ids) {
+            Optional<Product> p = productRepository.findById(id);
+            if (p.isPresent()) {
+                products.add(productMapper.toDto(p.get()));
+            } else {
+                errors.put(id, "Product not found");
+            }
+        }
+
+        payload.setProducts(products);
+        payload.setErrors(errors);
+        return payload;
     }
 
 }

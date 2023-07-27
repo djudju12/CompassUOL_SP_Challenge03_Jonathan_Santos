@@ -20,6 +20,9 @@ spring:
     send-topic: products-send
     reply-topic: products-reply
     consumer-group: products-group
+    user-send-topic: users-send
+    user-reply-topic: users-reply
+    user-consumer-group: users-group
   data:
     web:
       pageable:

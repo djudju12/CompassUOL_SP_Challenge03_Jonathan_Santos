@@ -36,16 +36,8 @@ public class ProductListener {
     public Message<?> listen(ConsumerRecord<String, Object> consumerRecord) throws JsonProcessingException {
         ProductListDto productListDto = objectMapper.readValue(String.valueOf(consumerRecord.value()), ProductListDto.class);
         log.info("Received request: {}", productListDto);
-
-        List<ProductDto> products = productListDto.getIds()
-                .stream()
-                .map(productService::findProductById)
-                .toList();
-
-        PayloadProducts payloadProducts = new PayloadProducts();
-        payloadProducts.setProducts(products);
-
-        return MessageBuilder.withPayload( objectMapper.writeValueAsString(payloadProducts) )
+        PayloadProducts payload = productService.findAllById(productListDto.getIds());
+        return MessageBuilder.withPayload( objectMapper.writeValueAsString(payload) )
                 .build();
     }
 

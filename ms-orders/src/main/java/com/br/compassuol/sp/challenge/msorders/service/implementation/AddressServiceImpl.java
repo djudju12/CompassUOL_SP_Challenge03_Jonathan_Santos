@@ -1,5 +1,6 @@
 package com.br.compassuol.sp.challenge.msorders.service.implementation;
 
+import com.br.compassuol.sp.challenge.msorders.exception.types.AddressNotFoundException;
 import com.br.compassuol.sp.challenge.msorders.feign.AddressProxy;
 import com.br.compassuol.sp.challenge.msorders.model.dto.address.AddressResponse;
 import com.br.compassuol.sp.challenge.msorders.model.dto.address.DeliveryAddressDto;
@@ -51,6 +52,9 @@ public class AddressServiceImpl implements AddressService {
             log.info("Querying address from external API {}", deliveryAddressDto);
             AddressResponse addressResponse = addressProxy.getAddressByCep(zipCode);
 
+            if (addressResponse.getZipCode() == null) {
+                throw new AddressNotFoundException();
+            }
             // Remove hyphen from zip code
             addressResponse.setZipCode(cleanZipCode(addressResponse.getZipCode()));
 

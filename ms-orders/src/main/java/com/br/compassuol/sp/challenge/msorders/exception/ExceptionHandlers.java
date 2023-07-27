@@ -1,7 +1,6 @@
 package com.br.compassuol.sp.challenge.msorders.exception;
 
-import com.br.compassuol.sp.challenge.msorders.exception.types.CancelOrderMisuseException;
-import com.br.compassuol.sp.challenge.msorders.exception.types.OrderIdNotFoundException;
+import com.br.compassuol.sp.challenge.msorders.exception.types.*;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.util.Map;
 import java.util.Set;
 
 @ControllerAdvice
@@ -23,6 +23,8 @@ public class ExceptionHandlers extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({
             OrderIdNotFoundException.class
+            , UserIdNotFoundException.class
+            , AddressNotFoundException.class
     })
     protected ResponseEntity<ErrorResponse> handleNotFoundException(Exception exc) {
         ErrorResponse error = new ErrorResponse(HttpStatus.NOT_FOUND.value(), exc.getMessage());
@@ -35,6 +37,23 @@ public class ExceptionHandlers extends ResponseEntityExceptionHandler {
     }) // Generic bad request
     protected ResponseEntity<ErrorResponse> handleMisuseOfCancel(Exception exc) {
         ErrorResponse error = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), exc.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({
+            ProductErrorResponseException.class
+    })
+    protected ResponseEntity<ErrorResponse> handleErrorOnProductResponse(Exception exc) {
+        Map<Long, String> errors = ((ProductErrorResponseException) exc).getErrors();
+        String message = "Total errors: " + errors.size();
+
+        // List all errors
+        message += ". Errors: " + errors.entrySet()
+                                        .stream()
+                                        .map(e -> e.getKey() + ": " + e.getValue())
+                                        .toList();
+
+        ErrorResponse error = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), message);
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
