@@ -32,10 +32,8 @@ public class ProductListener {
 
     @KafkaListener(topics = "products-send")
     @SendTo
-    // TODO excessoes
     public Message<?> listen(ConsumerRecord<String, Object> consumerRecord) throws JsonProcessingException {
         ProductListDto productListDto = objectMapper.readValue(String.valueOf(consumerRecord.value()), ProductListDto.class);
-        log.info("Received request: {}", productListDto);
         PayloadProducts payload = productService.findAllById(productListDto.getIds());
         return MessageBuilder.withPayload( objectMapper.writeValueAsString(payload) )
                 .build();

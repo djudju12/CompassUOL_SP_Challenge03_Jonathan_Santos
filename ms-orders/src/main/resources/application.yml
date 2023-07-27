@@ -2,9 +2,9 @@ spring:
   application:
     name: ms-orders
   datasource:
-    url: jdbc:postgresql://localhost:5432/orders
-    username: postgres
-    password: root
+    url: ${POSTGRES_HOST}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect

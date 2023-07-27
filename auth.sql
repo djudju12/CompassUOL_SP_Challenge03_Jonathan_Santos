@@ -1,0 +1,5 @@
+CREATE DATABASE auth;
+
+\c auth;
+
+CREATE TABLE

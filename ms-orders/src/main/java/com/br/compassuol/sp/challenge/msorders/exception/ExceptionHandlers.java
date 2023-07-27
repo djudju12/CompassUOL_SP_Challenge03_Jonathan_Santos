@@ -41,10 +41,14 @@ public class ExceptionHandlers extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler({
+           /* You cand add more exceptions,
+            * but first you need to create an Exception type with Map<Long, String> errors
+            * and extends.
+            */
             ProductErrorResponseException.class
     })
-    protected ResponseEntity<ErrorResponse> handleErrorOnProductResponse(Exception exc) {
-        Map<Long, String> errors = ((ProductErrorResponseException) exc).getErrors();
+    protected ResponseEntity<ErrorResponse> handleErrorOnProductResponse(ProductErrorResponseException exc) {
+        Map<Long, String> errors = exc.getErrors();
         String message = "Total errors: " + errors.size();
 
         // List all errors
@@ -61,7 +65,6 @@ public class ExceptionHandlers extends ResponseEntityExceptionHandler {
      * Handle all validation exceptions not handled by handleMethodArgumentNotValid
      * I think this happens when the validation is done in the service or other layer (not controller)
      * I don't know if this is the best way to handle this, but it works
-     * And I like it
      */
     @ExceptionHandler({
             ConstraintViolationException.class

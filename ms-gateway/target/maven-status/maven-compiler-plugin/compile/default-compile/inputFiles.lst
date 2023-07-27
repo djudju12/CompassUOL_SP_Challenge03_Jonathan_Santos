@@ -1,0 +1,5 @@
+/home/jonathan/programacao/compass-desafio-3/ms-gateway/src/main/java/com/br/compassuol/gateway/utils/JwtUtils.java
+/home/jonathan/programacao/compass-desafio-3/ms-gateway/src/main/java/com/br/compassuol/gateway/exceptions/types/InvalidJwtTokenException.java
+/home/jonathan/programacao/compass-desafio-3/ms-gateway/src/main/java/com/br/compassuol/gateway/exceptions/types/UnathorizedJwtTokenException.java
+/home/jonathan/programacao/compass-desafio-3/ms-gateway/src/main/java/com/br/compassuol/gateway/MsGatewayApplication.java
+/home/jonathan/programacao/compass-desafio-3/ms-gateway/src/main/java/com/br/compassuol/gateway/filter/JwtFilter.java

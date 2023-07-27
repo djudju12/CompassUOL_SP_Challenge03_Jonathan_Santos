@@ -26,7 +26,6 @@ public class UserListener {
 
     @KafkaListener(topics = "users-send")
     @SendTo
-    // TODO excessoes
     public Message<?> listen(ConsumerRecord<String, Object> consumerRecord) throws JsonProcessingException {
         Long id = objectMapper.readValue(String.valueOf(consumerRecord.value()), Long.class);
         boolean exists = userService.existsById(id);
