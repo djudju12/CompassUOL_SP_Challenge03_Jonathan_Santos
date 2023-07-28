@@ -20,6 +20,12 @@ spring:
     reply-topic: users-reply
     consumer-group: products-group
 
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
 app:
   jwt:
     ExpirationMs: 3600000
@@ -27,3 +33,5 @@ app:
 
 server:
   port: 9000
+  servlet:
+    context-path: /auth

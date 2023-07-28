@@ -31,5 +31,13 @@ spring:
       sort:
         sort-parameter: sort
 
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
 server:
+  servlet:
+    context-path: /orders
   port: 8100

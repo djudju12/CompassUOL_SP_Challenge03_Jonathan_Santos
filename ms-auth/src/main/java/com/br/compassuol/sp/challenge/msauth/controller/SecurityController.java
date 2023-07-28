@@ -3,16 +3,19 @@ package com.br.compassuol.sp.challenge.msauth.controller;
 import com.br.compassuol.sp.challenge.msauth.model.dto.JwtDto;
 import com.br.compassuol.sp.challenge.msauth.model.dto.LoginDto;
 import com.br.compassuol.sp.challenge.msauth.service.AuthService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/auth")
+@Tag(name = "Authentications")
 public class SecurityController {
 
     private final AuthService authService;
@@ -21,7 +24,13 @@ public class SecurityController {
         this.authService = authService;
     }
 
-    @PostMapping("/login")
+    @Operation(summary = "Create API Token")
+    @ApiResponses({
+        @ApiResponse(responseCode = "201", description = "JWT Token created"
+                    , content = @Content(schema = @Schema(implementation = JwtDto.class))),
+        @ApiResponse(responseCode = "4XX", description = "Unauthorized | Bad Request"),
+    })
+    @PostMapping(value = "/login", produces = "application/json")
     public ResponseEntity<JwtDto> login(@Valid @RequestBody LoginDto loginDto){
         String token = authService.login(loginDto);
 

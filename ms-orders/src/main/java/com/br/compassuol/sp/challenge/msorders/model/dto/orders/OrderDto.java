@@ -3,6 +3,7 @@ package com.br.compassuol.sp.challenge.msorders.model.dto.orders;
 import com.br.compassuol.sp.challenge.msorders.model.dto.address.DeliveryAddressDto;
 import com.br.compassuol.sp.challenge.msorders.model.dto.products.PayloadProductsRequest;
 import com.br.compassuol.sp.challenge.msorders.model.enums.OrderStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -15,6 +16,7 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @Accessors(chain = true)
 public class OrderDto {
+    @JsonIgnore
     private Long id;
 
     @NotNull(message = "User id is required")

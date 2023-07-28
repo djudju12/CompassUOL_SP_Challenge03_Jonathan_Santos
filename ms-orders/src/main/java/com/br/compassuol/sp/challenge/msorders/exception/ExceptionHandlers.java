@@ -41,10 +41,6 @@ public class ExceptionHandlers extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler({
-           /* You cand add more exceptions,
-            * but first you need to create an Exception type with Map<Long, String> errors
-            * and extends.
-            */
             ProductErrorResponseException.class
     })
     protected ResponseEntity<ErrorResponse> handleErrorOnProductResponse(ProductErrorResponseException exc) {
@@ -57,8 +53,8 @@ public class ExceptionHandlers extends ResponseEntityExceptionHandler {
                                         .map(e -> e.getKey() + ": " + e.getValue())
                                         .toList();
 
-        ErrorResponse error = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), message);
-        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+        ErrorResponse error = new ErrorResponse(HttpStatus.NOT_FOUND.value(), message);
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
     /*

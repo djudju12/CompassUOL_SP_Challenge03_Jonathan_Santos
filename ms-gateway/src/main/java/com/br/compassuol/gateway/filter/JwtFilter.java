@@ -21,6 +21,7 @@ public class JwtFilter extends AbstractGatewayFilterFactory<JwtFilter.Config> {
     public GatewayFilter apply(Config config) {
         return (exchange, chain) -> {
             // Token from request
+            log.info("Headers: {}", exchange.getRequest().getHeaders());
             String token = jwtUtils.getTokenFromServerWebExchange(exchange);
 
             // If token is unauthorized throws an exception
