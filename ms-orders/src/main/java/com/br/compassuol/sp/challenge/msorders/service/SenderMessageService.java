@@ -9,4 +9,6 @@ import java.util.List;
 public interface SenderMessageService {
     PayloadProductsResponse getProductsDescription(PayloadProductsRequest payloadProductsRequest);
     boolean userExists(Long userId);
+
+
 }

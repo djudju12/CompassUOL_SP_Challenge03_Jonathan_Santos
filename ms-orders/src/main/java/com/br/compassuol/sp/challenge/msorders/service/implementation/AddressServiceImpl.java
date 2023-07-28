@@ -4,6 +4,7 @@ import com.br.compassuol.sp.challenge.msorders.exception.types.AddressNotFoundEx
 import com.br.compassuol.sp.challenge.msorders.feign.AddressProxy;
 import com.br.compassuol.sp.challenge.msorders.model.dto.address.AddressResponse;
 import com.br.compassuol.sp.challenge.msorders.model.dto.address.DeliveryAddressDto;
+import com.br.compassuol.sp.challenge.msorders.model.dto.orders.OrderDto;
 import com.br.compassuol.sp.challenge.msorders.model.entity.DeliveryAddress;
 import com.br.compassuol.sp.challenge.msorders.model.mapper.DeliveryAddressMapper;
 import com.br.compassuol.sp.challenge.msorders.repository.AddressRepository;
@@ -30,9 +31,9 @@ public class AddressServiceImpl implements AddressService {
     }
 
     /*
-     * Take an address with zip code and number and complete it with the other fields
-     * If the address is already in the database, retrieve it
-     * else query the external API and save it in the database
+     * Take an address with zip code and number and complete it
+     * with the other fields. If the address is already in the database,
+     * retrieve it, else query the external API and save it in the database
      */
     @Override
     public DeliveryAddressDto completeThisAddress(DeliveryAddressDto deliveryAddressDto) {
@@ -55,13 +56,14 @@ public class AddressServiceImpl implements AddressService {
             if (addressResponse.getZipCode() == null) {
                 throw new AddressNotFoundException();
             }
-            // Remove hyphen from zip code
+                                    // Remove hyphen from zip code
             addressResponse.setZipCode(cleanZipCode(addressResponse.getZipCode()));
 
             completedAddress = new DeliveryAddressDto();
             completedAddress.setNumber(number);
-            BeanUtils.copyProperties(addressResponse, completedAddress);
 
+            // Copy other fields of the response to the DTOs
+            BeanUtils.copyProperties(addressResponse, completedAddress);
         }
 
         return completedAddress;
@@ -70,4 +72,5 @@ public class AddressServiceImpl implements AddressService {
     private String cleanZipCode(String zipCode) {
         return zipCode.replaceAll("-", "");
     }
+
 }

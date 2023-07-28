@@ -47,9 +47,9 @@ public class OrderServiceImpl implements OrderService {
     public OrderDto createOrder(OrderDto orderDto) {
         // Exchanging messages with user service
         Long userId = orderDto.getUserId();
-        if(!senderMessageService.userExists(userId)) {
+        if(!senderMessageService.userExists(userId))
             throw new UserIdNotFoundException(userId);
-        }
+
 
         // Exchanging messages with product service
         PayloadProductsRequest request = orderDto.getProducts();
@@ -58,9 +58,8 @@ public class OrderServiceImpl implements OrderService {
             throw new ProductErrorResponseException(response.getErrors());
 
         // Get completed address from address service
-        DeliveryAddressDto providedAddress = orderDto.getDeliveryAddress();
-        DeliveryAddressDto completedAddress = addressService.completeThisAddress(providedAddress);
-        orderDto.setDeliveryAddress(completedAddress);
+        DeliveryAddressDto deliveryAddressDto = orderDto.getDeliveryAddress();
+        orderDto.setDeliveryAddress(addressService.completeThisAddress(deliveryAddressDto));
 
         // Make the entity order and save it
         Order order = orderMapper.toEntity(orderDto);
