@@ -34,8 +34,8 @@ public class Order {
     @JoinColumn(name = "delivery_address_id")
     private DeliveryAddress deliveryAddress;
 
-    public Order setProducts(List<OrderedProduct> items) {
-        this.products = items;
+    public Order setProducts(List<OrderedProduct> products) {
+        this.products = products;
         this.products.forEach(product -> product.setOrder(this));
         return this;
     }

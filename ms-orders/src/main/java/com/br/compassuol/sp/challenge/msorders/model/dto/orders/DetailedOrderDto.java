@@ -1,5 +1,6 @@
 package com.br.compassuol.sp.challenge.msorders.model.dto.orders;
 
+import com.br.compassuol.sp.challenge.msorders.model.dto.address.DeliveryAddressDto;
 import com.br.compassuol.sp.challenge.msorders.model.dto.products.ProductDto;
 import com.br.compassuol.sp.challenge.msorders.model.enums.OrderStatus;
 import lombok.Data;
@@ -16,4 +17,5 @@ public class DetailedOrderDto {
     private Long userId;
     private OrderStatus status;
     private List<ProductDto> products;
+    private DeliveryAddressDto deliveryAddress;
 }

@@ -90,11 +90,13 @@ class OrdersControllerTest {
     @Test
     void createOrder() throws Exception {
         // given
+        PayloadProductsRequest products = new PayloadProductsRequest();
+        products.setIds(Lists.newArrayList(1L, 2L));
         OrderDto orderDto = new OrderDto()
                 .setId(ORDER_ID)
                 .setUserId(1L)
                 .setDeliveryAddress(new DeliveryAddressDto())
-                .setProducts(new PayloadProductsRequest());
+                .setProducts(products);
 
         ObjectMapper objectMapper = new ObjectMapper();
 

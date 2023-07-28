@@ -13,7 +13,7 @@ import com.br.compassuol.sp.challenge.msorders.model.enums.OrderStatus;
 import com.br.compassuol.sp.challenge.msorders.model.mapper.OrderMapper;
 import com.br.compassuol.sp.challenge.msorders.repository.OrderRepository;
 import com.br.compassuol.sp.challenge.msorders.service.AddressService;
-import com.br.compassuol.sp.challenge.msorders.service.SenderMessageService;
+import com.br.compassuol.sp.challenge.msorders.service.MessageSenderService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -44,7 +44,7 @@ class OrderServiceImplTest {
     private OrderRepository orderRepository;
 
     @Mock
-    private SenderMessageService senderMessageService;
+    private MessageSenderService messageSenderService;
 
     @Mock
     private OrderMapper orderMapper;
@@ -146,7 +146,7 @@ class OrderServiceImplTest {
             // all tests will need this
             request = new PayloadProductsRequest();
             response = new PayloadProductsResponse();
-            given(senderMessageService.getProductsDescription(request))
+            given(messageSenderService.getProductsDescription(request))
                     .willReturn(response);
         }
 
@@ -165,7 +165,7 @@ class OrderServiceImplTest {
 
 
             // given - this behavior
-            given(senderMessageService.userExists(anyLong())).willReturn(true);
+            given(messageSenderService.userExists(anyLong())).willReturn(true);
             given(addressService.completeThisAddress(deliveryAddress))
                     .willReturn(deliveryAddress);
             given(orderMapper.toEntity(orderDto)).willReturn(expectedOrder);
@@ -176,8 +176,8 @@ class OrderServiceImplTest {
             OrderDto returnedOrder = orderService.createOrder(orderDto);
 
             //then - this should happen
-            then(senderMessageService).should().userExists(USER_ID);
-            then(senderMessageService).should().getProductsDescription(request);
+            then(messageSenderService).should().userExists(USER_ID);
+            then(messageSenderService).should().getProductsDescription(request);
             then(addressService).should().completeThisAddress(deliveryAddress);
             then(orderMapper).should().toEntity(orderDto);
 
@@ -199,7 +199,7 @@ class OrderServiceImplTest {
 
             // then
             then(orderRepository).should().findByIdActive(ORDER_ID);
-            then(senderMessageService).should().getProductsDescription(request);
+            then(messageSenderService).should().getProductsDescription(request);
             then(orderMapper).should().toProductRequest(anyList());
             // TODO - nao tive tempo de veriricar
 //            then(orderMapper).should().toDto(any(Order.class), anyList());

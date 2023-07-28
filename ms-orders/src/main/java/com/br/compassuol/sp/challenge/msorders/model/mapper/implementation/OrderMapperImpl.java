@@ -36,11 +36,13 @@ public class OrderMapperImpl implements OrderMapper {
 
     @Override
     public DetailedOrderDto toDto(Order order, List<ProductDto> productDetails) {
+        DeliveryAddress deliveryAddress = order.getDeliveryAddress();
         return new DetailedOrderDto()
                 .setId(order.getId())
                 .setUserId(order.getUserId())
                 .setId(order.getId())
                 .setStatus(order.getStatus())
+                .setDeliveryAddress(addressMapper.toDto(deliveryAddress))
                 .setProducts(productDetails);
     }
 
@@ -67,9 +69,10 @@ public class OrderMapperImpl implements OrderMapper {
     @Override
     public PayloadProductsRequest toProductRequest(List<OrderedProduct> orderedProducts) {
         return new PayloadProductsRequest().setIds(orderedProducts
-                .stream()
-                .map(OrderedProduct::getProductId)
-                .toList());
+                                                    .stream()
+                                                    .map(OrderedProduct::getProductId)
+                                                    .toList()
+        );
     }
 
 }

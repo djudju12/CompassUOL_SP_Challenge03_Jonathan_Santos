@@ -38,7 +38,7 @@ public class JwtUtils {
             throw new InvalidJwtTokenException();
         }
 
-        // Here we make sure that bearer shall not pass
+        // Here we make sure that the bearer shall not pass
         return token.substring("Bearer ".length());
     }
 
@@ -49,7 +49,6 @@ public class JwtUtils {
                     .build()
 
             // If parse fails means that token is unauthorized
-            // Throws many exceptions
             .parse(token);
         } catch (Exception e) {
             throw new UnathorizedJwtTokenException(e.getMessage());

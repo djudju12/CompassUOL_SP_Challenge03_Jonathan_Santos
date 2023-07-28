@@ -1,4 +1,4 @@
-package com.br.compassuol.sp.challenge.msorders.config;
+package com.br.compassuol.sp.challenge.msorders.kafka;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

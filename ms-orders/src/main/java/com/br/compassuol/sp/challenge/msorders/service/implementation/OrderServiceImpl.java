@@ -17,7 +17,7 @@ import com.br.compassuol.sp.challenge.msorders.model.mapper.OrderMapper;
 import com.br.compassuol.sp.challenge.msorders.repository.OrderRepository;
 import com.br.compassuol.sp.challenge.msorders.service.AddressService;
 import com.br.compassuol.sp.challenge.msorders.service.OrderService;
-import com.br.compassuol.sp.challenge.msorders.service.SenderMessageService;
+import com.br.compassuol.sp.challenge.msorders.service.MessageSenderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -29,16 +29,16 @@ import java.util.List;
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
-    private final SenderMessageService senderMessageService;
+    private final MessageSenderService messageSenderService;
     private final OrderMapper orderMapper;
     private final AddressService addressService;
     public OrderServiceImpl(OrderRepository orderRepository,
-                            SenderMessageService senderMessageService,
+                            MessageSenderService messageSenderService,
                             OrderMapper orderMapper,
                             AddressService addressService) {
 
         this.orderRepository = orderRepository;
-        this.senderMessageService = senderMessageService;
+        this.messageSenderService = messageSenderService;
         this.orderMapper = orderMapper;
         this.addressService = addressService;
     }
@@ -47,13 +47,13 @@ public class OrderServiceImpl implements OrderService {
     public OrderDto createOrder(OrderDto orderDto) {
         // Exchanging messages with user service
         Long userId = orderDto.getUserId();
-        if(!senderMessageService.userExists(userId))
+        if(!messageSenderService.userExists(userId))
             throw new UserIdNotFoundException(userId);
 
 
         // Exchanging messages with product service
         PayloadProductsRequest request = orderDto.getProducts();
-        PayloadProductsResponse response = senderMessageService.getProductsDescription(request);
+        PayloadProductsResponse response = messageSenderService.getProductsDescription(request);
         if (!response.getErrors().isEmpty())
             throw new ProductErrorResponseException(response.getErrors());
 
@@ -102,7 +102,7 @@ public class OrderServiceImpl implements OrderService {
 
         // Exchange messages
         PayloadProductsRequest request = orderMapper.toProductRequest(orderedProducts);
-        PayloadProductsResponse response = senderMessageService.getProductsDescription(request);
+        PayloadProductsResponse response = messageSenderService.getProductsDescription(request);
 
         return orderMapper.toDto(findOrder, response.getProducts());
     }

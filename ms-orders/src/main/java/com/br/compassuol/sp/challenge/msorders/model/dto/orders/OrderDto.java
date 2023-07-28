@@ -22,6 +22,7 @@ public class OrderDto {
     private Long userId;
 
     @NotNull(message = "Products is required")
+    @Valid
     private PayloadProductsRequest products;
 
     private OrderStatus status;
