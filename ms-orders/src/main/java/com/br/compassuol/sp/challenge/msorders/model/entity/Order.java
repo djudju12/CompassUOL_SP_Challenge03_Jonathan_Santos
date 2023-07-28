@@ -3,12 +3,15 @@ package com.br.compassuol.sp.challenge.msorders.model.entity;
 import com.br.compassuol.sp.challenge.msorders.model.enums.OrderStatus;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @Accessors(chain = true)
 @Entity
@@ -35,5 +38,16 @@ public class Order {
         this.products = items;
         this.products.forEach(product -> product.setOrder(this));
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", products=" + products.stream().map(OrderedProduct::getProductId).toList() +
+                ", status=" + status +
+                ", deliveryAddress=" + deliveryAddress +
+                '}';
     }
 }

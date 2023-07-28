@@ -44,7 +44,7 @@ public class OrdersController {
 
 
     /*
-     * I use DELETE verb because I think it's a more semantic way to cancel an order.
+     * I used DELETE verb because I think it's a more semantic way to cancel an order.
      * But remember that this method just set the order status to CANCELED (27/06/2023).
      */
     @DeleteMapping("/{id}")

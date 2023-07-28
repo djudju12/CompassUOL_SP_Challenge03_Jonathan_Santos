@@ -45,14 +45,15 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDto createOrder(OrderDto orderDto) {
+        // Exchanging messages with user service
         Long userId = orderDto.getUserId();
         if(!senderMessageService.userExists(userId)) {
             throw new UserIdNotFoundException(userId);
         }
 
-        // Exchange messages
+        // Exchanging messages with product service
         PayloadProductsRequest request = orderDto.getProducts();
-        PayloadProductsResponse response = exchangeProductMessage(request);
+        PayloadProductsResponse response = senderMessageService.getProductsDescription(request);
         if (!response.getErrors().isEmpty())
             throw new ProductErrorResponseException(response.getErrors());
 
@@ -97,14 +98,12 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public DetailedOrderDto findWithDetails(long oderId) {
         Order findOrder = orderRepository.findByIdActive(oderId).orElseThrow(
-                () -> new OrderIdNotFoundException(oderId)
-        );
-
+                () -> new OrderIdNotFoundException(oderId));
         List<OrderedProduct> orderedProducts = findOrder.getProducts();
 
         // Exchange messages
         PayloadProductsRequest request = orderMapper.toProductRequest(orderedProducts);
-        PayloadProductsResponse response = exchangeProductMessage(request);
+        PayloadProductsResponse response = senderMessageService.getProductsDescription(request);
 
         return orderMapper.toDto(findOrder, response.getProducts());
     }
@@ -114,6 +113,7 @@ public class OrderServiceImpl implements OrderService {
         Order order = orderRepository.findByIdActive(id).orElseThrow(
                 () -> new OrderIdNotFoundException(id));
 
+        // Can't cancel a canceled order in this method, use cancelOrder() instead
         OrderStatus status = OrderStatus.valueOf(orderDto.getStatus());
         if (status == OrderStatus.CANCELED)
             throw new CancelOrderMisuseException();
@@ -121,10 +121,6 @@ public class OrderServiceImpl implements OrderService {
         order.setStatus(status);
         Order updatedOrder = orderRepository.save(order);
         return orderMapper.toDto(updatedOrder);
-    }
-
-    private PayloadProductsResponse exchangeProductMessage(PayloadProductsRequest request) {
-        return senderMessageService.getProductsDescription(request);
     }
 
 }

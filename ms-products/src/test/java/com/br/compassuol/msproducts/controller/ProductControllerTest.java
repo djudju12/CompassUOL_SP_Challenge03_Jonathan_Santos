@@ -24,6 +24,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.reset;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest({ProductController.class})
@@ -60,8 +61,7 @@ class ProductControllerTest {
     @Test
     void getProducts__ReturnsDtoList() throws Exception {
          // given
-
-        List<ProductDto> productList = new ArrayList<>();
+        List<ProductDto> productList = List.of(productDto);
         given(productService.findAllProducts(any(Pageable.class))).willReturn(productList);
 
         //when then
@@ -70,7 +70,9 @@ class ProductControllerTest {
                     .param("size", "10")
                     .param("sort", "name")
                     .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$.length()").value(productList.size()));
 
         then(productService).should().findAllProducts(any(Pageable.class));
     }

@@ -1,9 +1,7 @@
 package com.br.compassuol.sp.challenge.msorders.model.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @NoArgsConstructor
@@ -26,4 +24,5 @@ public class OrderedProduct {
     public OrderedProduct(Long productId) {
         this.productId = productId;
     }
+
 }
