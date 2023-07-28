@@ -47,7 +47,7 @@ public class OrdersController {
         , description = "Retrive all active orders"
     )
     @ApiResponse(responseCode = "200", description = "OK")
-    @GetMapping(value = {"/", ""}, produces = "application/json")
+    @GetMapping(value = "/", produces = "application/json")
     public ResponseEntity<List<OrderDto>> getProducts(Pageable page) {
         // Page settings are defined in application.file
         List<OrderDto> orderList = orderService.findAllOrders(page);
@@ -78,9 +78,10 @@ public class OrdersController {
         @ApiResponse(responseCode = "404", description = "User | Product id not found"
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
     })
-    @PostMapping(value = {"/", ""}, produces = "application/json")
+    @PostMapping(value = "/", produces = "application/json")
     public ResponseEntity<OrderDto> createOrder(@Valid @RequestBody OrderDto orderDto) {
         OrderDto newOrder = orderService.createOrder(orderDto);
+        log.info("Order created: {}", newOrder);
         return new ResponseEntity<>(newOrder, HttpStatus.CREATED);
     }
 

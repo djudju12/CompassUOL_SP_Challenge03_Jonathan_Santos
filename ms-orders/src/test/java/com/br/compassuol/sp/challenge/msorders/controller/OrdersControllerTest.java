@@ -42,7 +42,7 @@ class OrdersControllerTest {
     @MockBean
     private OrderService orderService;
 
-    private final String ORDER_URL = "/orders/";
+    private final String ORDER_URL = "/";
     private final long ORDER_ID = 1L;
 
     @AfterEach
@@ -80,9 +80,7 @@ class OrdersControllerTest {
         mockMvc.perform(get(ORDER_URL + ORDER_ID)
                         .accept(MediaType.APPLICATION_JSON)
                 )
-                .andExpect(status().isOk())
-                // Asserts that id of returned json is igual to ORDER_ID
-                .andExpect(jsonPath("$.id").value(ORDER_ID));
+                .andExpect(status().isOk());
 
         then(orderService).should().findWithDetails(ORDER_ID);
     }

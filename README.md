@@ -1,1 +1,2 @@
-[//]: # (TODO Documentacao da api via swagger e README)
+[//]: # (TODO README)
+[//]: # (TODO Verificar se vai funcionar o docker compose com o swagger)

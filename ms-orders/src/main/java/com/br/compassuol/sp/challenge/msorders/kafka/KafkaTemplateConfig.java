@@ -18,7 +18,6 @@ public class KafkaTemplateConfig {
         return new ReplyingKafkaTemplate<>(pf, repliesContainer);
     }
 
-    // TODO - group id
     @Bean
     public ConcurrentMessageListenerContainer<Long, Object> repliesContainer(
             ConcurrentKafkaListenerContainerFactory<Long, Object> containerFactory) {

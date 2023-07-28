@@ -48,7 +48,7 @@ class SecurityControllerTest {
 
 
         //when then
-        mockMvc.perform(post("/auth/login")
+        mockMvc.perform(post("/login")
                     .accept(MediaType.APPLICATION_JSON)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content("{\"username\": \"foo\", \"password\": \"bar\"}"))

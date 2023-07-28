@@ -50,7 +50,6 @@ public class OrderServiceImpl implements OrderService {
         if(!messageSenderService.userExists(userId))
             throw new UserIdNotFoundException(userId);
 
-
         // Exchanging messages with product service
         PayloadProductsRequest request = orderDto.getProducts();
         PayloadProductsResponse response = messageSenderService.getProductsDescription(request);

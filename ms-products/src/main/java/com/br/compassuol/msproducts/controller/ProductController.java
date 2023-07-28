@@ -43,7 +43,7 @@ public class ProductController {
         @ApiResponse(responseCode = "400", description = "Sort parameter is invalid"
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
     })
-    @GetMapping(value = {"/", ""}, produces = "application/json")
+    @GetMapping(value = "/", produces = "application/json")
     public ResponseEntity<List<ProductDto>> getProducts(Pageable page) {
         // Default page properties in application.(yml|properties)
         List<ProductDto> productList = productService.findAllProducts(page);
@@ -97,7 +97,7 @@ public class ProductController {
         @ApiResponse(responseCode = "400", description = "Some field is invalid"
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
     })
-    @PostMapping(value = {"/", ""})
+    @PostMapping( value = "/")
     public ResponseEntity<ProductDto> createProduct(@Valid @RequestBody ProductDto product) {
         ProductDto updatedProduct = productService.createProduct(product);
         return new ResponseEntity<>(updatedProduct, HttpStatus.CREATED);

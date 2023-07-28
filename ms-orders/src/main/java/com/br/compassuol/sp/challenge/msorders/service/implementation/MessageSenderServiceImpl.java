@@ -30,7 +30,6 @@ public class MessageSenderServiceImpl implements MessageSenderService {
         this.objectMapper = objectMapper;
     }
 
-    // TODO - Melhorar isso
     @Override
     @SneakyThrows
     public PayloadProductsResponse getProductsDescription(PayloadProductsRequest payloadProductsRequest) {
@@ -39,7 +38,6 @@ public class MessageSenderServiceImpl implements MessageSenderService {
         return objectMapper.readValue(String.valueOf(result), PayloadProductsResponse.class);
     }
 
-    // TODO - Melhorar isso
     @Override
     @SneakyThrows
     public boolean userExists(Long userId) {

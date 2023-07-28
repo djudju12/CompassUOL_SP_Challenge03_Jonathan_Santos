@@ -37,7 +37,7 @@ public class AddressServiceImpl implements AddressService {
      */
     @Override
     public DeliveryAddressDto completeThisAddress(DeliveryAddressDto deliveryAddressDto) {
-        String zipCode = deliveryAddressDto.getZipCode();
+        String zipCode = cleanZipCode(deliveryAddressDto.getZipCode());
         String number = deliveryAddressDto.getNumber();
         DeliveryAddressDto completedAddress;
 
@@ -67,6 +67,14 @@ public class AddressServiceImpl implements AddressService {
         }
 
         return completedAddress;
+    }
+
+    @Override
+    public DeliveryAddress completeInvalidAddress(DeliveryAddressDto deliveryAddressDto) {
+        String zipCode = deliveryAddressDto.getZipCode();
+        String number = deliveryAddressDto.getNumber();
+
+        return null;
     }
 
     private String cleanZipCode(String zipCode) {

@@ -30,9 +30,9 @@ public class OrderMapperImpl implements OrderMapper {
                 .setId(order.getId())
                 .setUserId(order.getUserId())
                 .setStatus(order.getStatus())
-                .setProducts( toProductRequest(order.getProducts()) )
-                .setDeliveryAddress( addressMapper.toDto(deliveryAddress) );
-        }
+                .setProducts(toProductRequest(order.getProducts()))
+                .setDeliveryAddress(addressMapper.toDto(deliveryAddress));
+    }
 
     @Override
     public DetailedOrderDto toDto(Order order, List<ProductDto> productDetails) {
@@ -52,8 +52,8 @@ public class OrderMapperImpl implements OrderMapper {
         return new Order()
                 .setId(orderDto.getId())
                 .setStatus(orderDto.getStatus())
-                .setProducts( productListToOrderedProduct(orderDto.getProducts()) )
-                .setDeliveryAddress( addressMapper.toEntity(deliveryAddressDto) )
+                .setProducts(productListToOrderedProduct(orderDto.getProducts()))
+                .setDeliveryAddress(addressMapper.toEntity(deliveryAddressDto))
                 .setUserId(orderDto.getUserId());
     }
 
@@ -68,11 +68,11 @@ public class OrderMapperImpl implements OrderMapper {
 
     @Override
     public PayloadProductsRequest toProductRequest(List<OrderedProduct> orderedProducts) {
-        return new PayloadProductsRequest().setIds(orderedProducts
-                                                    .stream()
-                                                    .map(OrderedProduct::getProductId)
-                                                    .toList()
-        );
+        return new PayloadProductsRequest()
+                .setIds(orderedProducts
+                        .stream()
+                        .map(OrderedProduct::getProductId)
+                        .toList());
     }
 
 }

@@ -201,8 +201,6 @@ class OrderServiceImplTest {
             then(orderRepository).should().findByIdActive(ORDER_ID);
             then(messageSenderService).should().getProductsDescription(request);
             then(orderMapper).should().toProductRequest(anyList());
-            // TODO - nao tive tempo de veriricar
-//            then(orderMapper).should().toDto(any(Order.class), anyList());
         }
 
     }

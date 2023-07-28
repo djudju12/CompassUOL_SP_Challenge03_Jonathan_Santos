@@ -37,7 +37,7 @@ class ProductControllerTest {
     @MockBean
     private ProductService productService;
 
-    private final String PRODUCTS_URL = "/products/";
+    private final String PRODUCTS_URL = "/";
     private final long PRODUCTS_ID = 1;
     private final String PRODUCTS_NAME = "foo";
     private final BigDecimal PRODUCTS_PRICE = BigDecimal.valueOf(10.0);
