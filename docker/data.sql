@@ -5,7 +5,6 @@ VALUES ('admin', '$2a$12$NXu6EixieWDzOuUbhI2gZ.PWI60nB7G3Fr6Na36vKUkruI/15bas6',
 
 -- products
 \c challenge3_products;
-select * from products;
 INSERT INTO products(name, description, price)
 VALUES ('product 1', 'description 1', 10.00);
 INSERT INTO products(name, description, price)
@@ -27,12 +26,11 @@ INSERT INTO orders(delivery_address_id, status, user_id)
 VALUES (1, 'PENDING', 1);
 INSERT INTO orders(delivery_address_id, status, user_id)
 VALUES (1, 'PENDING', 1);
-
 -- order_items
 INSERT INTO ordered_product(order_id, product_id)
-VALUES (1, 1);
+VALUES (2, 1);
 INSERT INTO ordered_product(order_id, product_id)
-VALUES (1, 2);
+VALUES (2, 2);
 INSERT INTO ordered_product(order_id, product_id)
 VALUES (2, 3);
 INSERT INTO ordered_product(order_id, product_id)

@@ -24,6 +24,7 @@ services:
 
   db:
     image: postgres:14.1-alpine
+    restart: always
     ports:
       - "5432:5432"
     environment:
@@ -36,6 +37,7 @@ services:
       - ./auth.sql:/docker-entrypoint-initdb.d/auth.sql
       - ./orders.sql:/docker-entrypoint-initdb.d/orders.sql
       - ./products.sql:/docker-entrypoint-initdb.d/products.sql
+#      - ./data.sql:/docker-entrypoint-initdb.d/data.sql
 
   msproducts:
     image: djudju12/compass-challenge03-ms-products:0.0.1-SNAPSHOT
@@ -49,7 +51,6 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_HOST=jdbc:postgresql://db:5432/challenge3_products
       - KAFKA_HOST=kafka:9092
-
   msorders:
     image: djudju12/compass-challenge03-ms-orders:0.0.1-SNAPSHOT
     networks:
@@ -82,6 +83,8 @@ services:
       - default
     ports:
       - "8765:8765"
+    environment:
+      - SPRING_PROFILES_ACTIVE=container
 
 networks:
   default:

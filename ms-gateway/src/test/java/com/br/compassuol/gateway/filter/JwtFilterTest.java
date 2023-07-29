@@ -8,6 +8,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
@@ -27,7 +28,6 @@ class JwtFilterTest {
     void jwtFilter_ReceivesToken_Unauthorized() {
         WebTestClient client = WebTestClient.bindToApplicationContext(this.context)
                 .build();
-
         client.get().uri("/test")
                 .header(HttpHeaders.AUTHORIZATION, "Bearer bar")
                 .exchange().expectStatus().isUnauthorized();

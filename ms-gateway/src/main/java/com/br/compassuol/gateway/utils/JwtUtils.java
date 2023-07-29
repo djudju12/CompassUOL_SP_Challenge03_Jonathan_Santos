@@ -26,8 +26,8 @@ public class JwtUtils {
      */
     public String getTokenFromServerWebExchange(ServerWebExchange serverWebExchange) {
         List<String> authHeader = serverWebExchange.getRequest()
-                        .getHeaders()
-                        .get(HttpHeaders.AUTHORIZATION);
+                .getHeaders()
+                .get(HttpHeaders.AUTHORIZATION);
 
         if (authHeader == null || authHeader.isEmpty()) {
             throw new InvalidJwtTokenException();
@@ -48,8 +48,8 @@ public class JwtUtils {
                     .setSigningKey(key())
                     .build()
 
-            // If parse fails means that token is unauthorized
-            .parse(token);
+                    // If parse fails means that token is unauthorized
+                    .parse(token);
         } catch (Exception e) {
             throw new UnathorizedJwtTokenException(e.getMessage());
         }
