@@ -34,13 +34,14 @@ services:
       - default
     volumes:
       - db:/var/lib/postgresql/data
-      - ./auth.sql:/docker-entrypoint-initdb.d/auth.sql
-      - ./orders.sql:/docker-entrypoint-initdb.d/orders.sql
-      - ./products.sql:/docker-entrypoint-initdb.d/products.sql
-#      - ./data.sql:/docker-entrypoint-initdb.d/data.sql
+      - ./db/01_auth.sql:/docker-entrypoint-initdb.d/01_auth.sql
+      - ./db/02_orders.sql:/docker-entrypoint-initdb.d/02_orders.sql
+      - ./db/03_products.sql:/docker-entrypoint-initdb.d/03_products.sql
+      - ./db/04_data.sql:/docker-entrypoint-initdb.d/04_data.sql
 
   msproducts:
-    image: djudju12/compass-challenge03-ms-products:0.0.1-SNAPSHOT
+    image: ms-products:1.0.1
+    build: ./ms-products
     networks:
       - default
     depends_on:
@@ -51,8 +52,10 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_HOST=jdbc:postgresql://db:5432/challenge3_products
       - KAFKA_HOST=kafka:9092
+
   msorders:
-    image: djudju12/compass-challenge03-ms-orders:0.0.1-SNAPSHOT
+    image: ms-orders:1.0.1
+    build: ./ms-orders
     networks:
       - default
     depends_on:
@@ -65,7 +68,8 @@ services:
       - KAFKA_HOST=kafka:9092
 
   msauth:
-    image: djudju12/compass-challenge03-ms-auth:0.0.1-SNAPSHOT
+    image: ms-auth:1.0.1
+    build: ./ms-auth
     networks:
       - default
     depends_on:
@@ -78,7 +82,8 @@ services:
       - KAFKA_HOST=kafka:9092
 
   msgateway:
-    image: djudju12/compass-challenge03-ms-gateway:0.0.1-SNAPSHOT
+    image: ms-gateway:1.0.1
+    build: ./ms-gateway
     networks:
       - default
     ports:
