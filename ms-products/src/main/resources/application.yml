@@ -2,16 +2,40 @@ spring:
   application:
     name: ms-products
   datasource:
-    url: jdbc:postgresql://localhost:5432/desafio
-    username: postgres
-    password: root
+    url: ${POSTGRES_HOST:jdbc:postgresql://localhost:25432/challenge3_products}
+    username: ${POSTGRES_USER:postgres}
+    password: ${POSTGRES_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true # logging
-  rabbitmq:
-    addresses: ${QUEUE_ADDR}
-    queue: ms-email
+  kafka:
+    bootstrap-servers: ${KAFKA_HOST:localhost:29092}
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.LongDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      group-id: products-group
+  my-topics:
+    send-topic: products-send
+    reply-topic: products-reply
+    consumer-group: products-group
+  data:
+    web:
+      pageable:
+        default-page-size: 10
+        max-page-size: 100
+        page-parameter: page
+        size-parameter: size
+      sort:
+        sort-parameter: sort
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
 
 server:
+  servlet:
+    context-path: /products
   port: 8000

@@ -1,0 +1,8 @@
+# Igore all target directories
+*/target/*
+
+# Igore all HELP.md files
+**/HELP.md
+
+# Ignore all .mvn directory
+**/.mvn/**
