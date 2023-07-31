@@ -14,7 +14,6 @@ import java.util.List;
 @Accessors(chain = true)
 @NoArgsConstructor
 public class DetailedOrderDto {
-    @JsonIgnore
     private Long id;
     private Long userId;
     private OrderStatus status;

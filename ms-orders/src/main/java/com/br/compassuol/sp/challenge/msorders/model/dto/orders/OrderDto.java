@@ -16,7 +16,6 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @Accessors(chain = true)
 public class OrderDto {
-    @JsonIgnore
     private Long id;
 
     @NotNull(message = "User id is required")

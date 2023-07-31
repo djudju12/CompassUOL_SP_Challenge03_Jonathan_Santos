@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -28,7 +29,8 @@ public class SecurityController {
     @ApiResponses({
         @ApiResponse(responseCode = "201", description = "JWT Token created"
                     , content = @Content(schema = @Schema(implementation = JwtDto.class))),
-        @ApiResponse(responseCode = "4XX", description = "Unauthorized | Bad Request"),
+        @ApiResponse(responseCode = "4XX", description = "Unauthorized | Bad Request"
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
     @PostMapping(value = "/login", produces = "application/json")
     public ResponseEntity<JwtDto> login(@Valid @RequestBody LoginDto loginDto){

@@ -2,15 +2,15 @@ spring:
   application:
     name: ms-orders
   datasource:
-    url: ${POSTGRES_HOST}
-    username: ${POSTGRES_USER}
-    password: ${POSTGRES_PASSWORD}
+    url: ${POSTGRES_HOST:jdbc:postgresql://localhost:25432/challenge3_orders  }
+    username: ${POSTGRES_USER:postgres}
+    password: ${POSTGRES_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true # logging
   kafka:
-    bootstrap-servers: ${KAFKA_HOST}
+    bootstrap-servers: ${KAFKA_HOST:localhost:29092}
     producer:
       key-serializer: org.apache.kafka.common.serialization.LongSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer

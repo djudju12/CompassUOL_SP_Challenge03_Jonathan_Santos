@@ -1,23 +1,26 @@
 spring:
   application:
     name: ms-gateway
+  config:
+    activate:
+      on-profile: container
   cloud:
     gateway:
       routes:
         - id: ms-products-doc
-          uri: http://localhost:8000
+          uri: http://msproducts:8000
           predicates:
             - Path=/products/v3/api-docs/**
             - Method=GET
 
         - id: ms-orders-doc
-          uri: http://localhost:8100
+          uri: http://msorders:8100
           predicates:
             - Path=/orders/v3/api-docs/**
             - Method=GET
 
         - id: ms-products
-          uri: http://localhost:8000
+          uri: http://msproducts:8000
           predicates:
             - Path=/products/**
             - Method=GET, POST, PUT, DELETE
@@ -25,7 +28,7 @@ spring:
             - name: JwtFilter
 
         - id: ms-orders
-          uri: http://localhost:8100
+          uri: http://msorders:8100
           predicates:
             - Path=/orders/**
             - Method=GET, POST, PUT, DELETE
@@ -33,7 +36,7 @@ spring:
             - name: JwtFilter
 
         - id: ms-auth
-          uri: http://localhost:9000
+          uri: http://msauth:9000
           predicates:
             - Path=/auth/**
             - Method=POST, GET
@@ -53,6 +56,7 @@ springdoc:
         name: Orders Microservice
       - url: /products/v3/api-docs
         name: Products Microservice
+
 app:
   jwt:
     Secret: 2bb80d537b1da3e38bd30361aa855686bde0eacd7162fef6a25fe97bf527a25b
@@ -62,4 +66,3 @@ server:
   error:
     # Necessary to show json error messages
     include-message: always
-

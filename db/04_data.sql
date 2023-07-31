@@ -15,32 +15,3 @@ INSERT INTO products(name, description, price)
 VALUES ('product 4', 'description 4', 40.00);
 INSERT INTO products(name, description, price)
 VALUES ('product 5', 'description 5', 50.00);
-
-\c challenge3_orders;
--- addresses
-INSERT INTO address(zip_code, street, city, state, number, detailed_address, district)
-VALUES ('96825750','Rua Jacarandá','Santa Cruz do Sul','RS','321','','Monte Verde');
-
--- orders
-INSERT INTO orders(delivery_address_id, status, user_id)
-VALUES (1, 'PENDING', 1);
-INSERT INTO orders(delivery_address_id, status, user_id)
-VALUES (1, 'PENDING', 1);
-INSERT INTO orders(delivery_address_id, status, user_id)
-VALUES (1, 'PENDING', 1);
-INSERT INTO orders(delivery_address_id, status, user_id)
-VALUES (1, 'PENDING', 1);
-
--- order_items
-INSERT INTO ordered_product(order_id, product_id)
-VALUES (2, 1);
-INSERT INTO ordered_product(order_id, product_id)
-VALUES (2, 2);
-INSERT INTO ordered_product(order_id, product_id)
-VALUES (2, 3);
-INSERT INTO ordered_product(order_id, product_id)
-VALUES (2, 4);
-INSERT INTO ordered_product(order_id, product_id)
-VALUES (3, 5);
-INSERT INTO ordered_product(order_id, product_id)
-VALUES (4, 1);
