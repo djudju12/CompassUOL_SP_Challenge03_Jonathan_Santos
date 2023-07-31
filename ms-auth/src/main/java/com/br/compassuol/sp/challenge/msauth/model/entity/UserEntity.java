@@ -5,8 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Set;
-
+@SuppressWarnings("JpaDataSourceORMInspection")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -27,11 +26,5 @@ public class UserEntity {
 
     @Column(nullable = false)
     private String password;
-//
-//    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//    @JoinTable(name = "users_roles",
-//            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-//            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
-//    )
-//    private Set<Role> roles;
+
 }

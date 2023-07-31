@@ -30,7 +30,7 @@ public class SecurityController {
         @ApiResponse(responseCode = "201", description = "JWT Token created"
                     , content = @Content(schema = @Schema(implementation = JwtDto.class))),
         @ApiResponse(responseCode = "4XX", description = "Unauthorized | Bad Request"
-                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+                    , content = @Content(schema = @Schema(hidden = true)))
     })
     @PostMapping(value = "/login", produces = "application/json")
     public ResponseEntity<JwtDto> login(@Valid @RequestBody LoginDto loginDto){

@@ -7,6 +7,7 @@ import lombok.experimental.Accessors;
 
 import java.math.BigDecimal;
 
+@SuppressWarnings("JpaDataSourceORMInspection")
 @Data
 @NoArgsConstructor
 @Accessors(chain = true)

@@ -4,7 +4,6 @@ import com.br.compassuol.sp.challenge.msorders.exception.types.AddressNotFoundEx
 import com.br.compassuol.sp.challenge.msorders.feign.AddressProxy;
 import com.br.compassuol.sp.challenge.msorders.model.dto.address.AddressResponse;
 import com.br.compassuol.sp.challenge.msorders.model.dto.address.DeliveryAddressDto;
-import com.br.compassuol.sp.challenge.msorders.model.dto.orders.OrderDto;
 import com.br.compassuol.sp.challenge.msorders.model.entity.DeliveryAddress;
 import com.br.compassuol.sp.challenge.msorders.model.mapper.DeliveryAddressMapper;
 import com.br.compassuol.sp.challenge.msorders.repository.AddressRepository;
@@ -12,7 +11,6 @@ import com.br.compassuol.sp.challenge.msorders.service.AddressService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 @Service
 @Slf4j
@@ -67,14 +65,6 @@ public class AddressServiceImpl implements AddressService {
         }
 
         return completedAddress;
-    }
-
-    @Override
-    public DeliveryAddress completeInvalidAddress(DeliveryAddressDto deliveryAddressDto) {
-        String zipCode = deliveryAddressDto.getZipCode();
-        String number = deliveryAddressDto.getNumber();
-
-        return null;
     }
 
     private String cleanZipCode(String zipCode) {

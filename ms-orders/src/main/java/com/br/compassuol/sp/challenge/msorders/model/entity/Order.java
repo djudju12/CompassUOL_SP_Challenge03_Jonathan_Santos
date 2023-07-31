@@ -2,7 +2,6 @@ package com.br.compassuol.sp.challenge.msorders.model.entity;
 
 import com.br.compassuol.sp.challenge.msorders.model.enums.OrderStatus;
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

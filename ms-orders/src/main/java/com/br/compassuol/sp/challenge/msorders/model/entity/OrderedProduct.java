@@ -3,6 +3,7 @@ package com.br.compassuol.sp.challenge.msorders.model.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+@SuppressWarnings("ALL")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

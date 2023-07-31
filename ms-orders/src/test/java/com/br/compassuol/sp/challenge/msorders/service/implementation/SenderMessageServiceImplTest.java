@@ -4,19 +4,13 @@ import com.br.compassuol.sp.challenge.msorders.kafka.MessageSender;
 import com.br.compassuol.sp.challenge.msorders.model.dto.products.PayloadProductsRequest;
 import com.br.compassuol.sp.challenge.msorders.model.dto.products.PayloadProductsResponse;
 import com.br.compassuol.sp.challenge.msorders.model.dto.users.MessageResponse;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static net.bytebuddy.matcher.ElementMatchers.any;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
@@ -31,10 +25,6 @@ class SenderMessageServiceImplTest {
 
     @InjectMocks
     private MessageSenderServiceImpl senderMessageService;
-
-    @BeforeEach
-    void setUp() throws JsonProcessingException {
-    }
 
     @Test
     void getProductsDescription() throws Exception {

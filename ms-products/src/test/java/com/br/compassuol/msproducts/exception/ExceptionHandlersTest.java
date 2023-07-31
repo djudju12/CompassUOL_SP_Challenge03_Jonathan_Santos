@@ -34,7 +34,5 @@ class ExceptionHandlersTest {
         );
 
     }
-    @Test
-    void handleMethodArgumentNotValid() {
-    }
+
 }

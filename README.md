@@ -66,6 +66,9 @@ Some important considerations about the Docker Compose file: the postgres databa
 `5432` internally and `25432` externally, so if you want to connect to the database externally, use the port `25432`.
 The change of
 the port was made to avoid conflicts with other databases that could be running in the same machine.
+**IMPORTANT**: The data.sql doesn't have data for Orders.
+The API will call the Via-CEP API to get the address of the order,
+so I left to the user to populate the database with the data.
 
 ### Local <a name = "local"></a>
 

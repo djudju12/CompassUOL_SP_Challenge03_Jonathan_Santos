@@ -1,7 +1,6 @@
 package com.br.compassuol.msproducts.controller;
 
 import com.br.compassuol.msproducts.model.dto.PayloadProducts;
-import com.br.compassuol.msproducts.model.dto.ProductDto;
 import com.br.compassuol.msproducts.model.dto.ProductListDto;
 import com.br.compassuol.msproducts.service.ProductService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -13,8 +12,6 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 @Slf4j
