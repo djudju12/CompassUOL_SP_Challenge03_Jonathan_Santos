@@ -13,11 +13,12 @@
     1. [Docker](#docker)
     2. [Local](#local)
     3. [credentials](#credentials)
-3. [Images](#images)
+3. [Examples](#examples)
    1. [Swagger](#swagger)
    2. [Auth](#auth)
    3. [Products](#products)
    4. [Orders](#orders)
+4. [Testing](#testing)
 
 ## Project Description <a name = "project-description"></a>
 
@@ -141,3 +142,13 @@ Some examples of requests to the orders service:
 - Get order by id:
 
 <img src="./media/postman-order-detailed.png" alt="orders by id" width="1920">
+
+## Testing <a name = "testing"></a>
+
+### Coverage <a name = "coverage"></a>
+
+<img src="./media/coverage.png" alt="coverage" width="1920">
+
+### Tests <a name = "tests"></a>
+
+<img src="./media/tests.png" alt="coverage" width="1920">
