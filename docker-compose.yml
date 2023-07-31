@@ -25,6 +25,7 @@ services:
   db:
     image: postgres:14.1-alpine
     restart: always
+    # IMPORTANT: externally mapped port 25432 to avoid clashing with locally running Postgres
     ports:
       - "25432:5432"
     environment:
