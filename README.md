@@ -80,6 +80,9 @@ After
 the database is running, we need to run the scripts in the `db` to create the tables and populate the database with
 data.
 
+> _**Tip:**_ if you want to run the services locally, I recommend using the db container to run the database, so you
+> don't need to change the database configuration in the services and have the scripts executed automatically.
+
 After the database is running and populated, we need a Kafka instance running in the port `29092`.
 The Docker Compose file has a Kafka instance configured, so if you want to use it, you can run just the Kafka and
 Zookeeper containers.
