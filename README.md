@@ -34,8 +34,8 @@ for the product management and the ms-auth is responsible for the authentication
 To make requests to the API, the user must communicate with the ms-gateway service, that will authenticate the token
 and redirect the request to the correct service.
 
-The complete documentation of the API can be found in the link below:
-http://localhost:8765/swagger-ui.html
+The complete documentation of the API can be found in the link: http://localhost:8765/swagger-ui.html after the project
+is running.
 
 Also, the project has a Postman collection with examples of requests to the API.
 The collection can be found in the
